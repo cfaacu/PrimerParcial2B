@@ -27,8 +27,8 @@ namespace Formularios
             this.btn_Buscar.Visible = false;
             if (modo == "registro")
             {
-                this.lbl_Telefono.Text = "Usuario";
-                this.lbl_Direccion.Text = "Password";
+                this.txt_Telefono.Text = "Usuario";
+                this.txt_Direccion.Text = "Password";
                 this.txt_Direccion.PasswordChar = '*';
             }
             if (modo == "baja")
@@ -38,7 +38,7 @@ namespace Formularios
                 this.txt_Nombre.Enabled = false;
                 this.txt_Telefono.Enabled = false;
             }
-            if(modo == "modificar")
+            if (modo == "modificar")
             {
                 this.btn_Buscar.Visible = true;
             }
@@ -74,6 +74,10 @@ namespace Formularios
                     Sistema.listaClientes.Add(cliente);
                     this.Close();
                 }
+                else
+                {
+                    MessageBox.Show("Error al ingresar los datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             if (modo == "baja")
             {
@@ -89,7 +93,7 @@ namespace Formularios
                     }
                 }
             }
-            if(modo == "modificar")
+            if (modo == "modificar")
             {
                 Sistema.EliminarCliente(this.txt_DNI.Text);
                 Cliente clienteAux = new Cliente(this.txt_Nombre.Text, this.txt_Apellido.Text, int.Parse(this.txt_DNI.Text), this.txt_Direccion.Text, int.Parse(this.txt_Telefono.Text));

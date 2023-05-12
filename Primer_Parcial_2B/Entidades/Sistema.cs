@@ -191,5 +191,15 @@ namespace Entidades
             }
             return false;
         }
+
+        public static double CalcularVentasTotales(List<Venta> listaVentas)
+        {
+            double total = 0;
+            foreach (Venta venta in listaVentas)
+            {
+                total = total + venta.PrecioTotal;
+            }
+            return total;
+        }
     }
 }

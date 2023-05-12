@@ -25,3 +25,4 @@ D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\ref\Formular
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_Listado.resources
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_AltaReparacion.resources
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_ModificarReparacion.resources
+D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Properties.Resources.resources

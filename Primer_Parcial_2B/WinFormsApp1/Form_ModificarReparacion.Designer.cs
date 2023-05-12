@@ -28,133 +28,158 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dtg_Reparaciones = new DataGridView();
-            lbl_CodigoSerie = new Label();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             txt_CodigoSerie = new TextBox();
             txt_Presupuesto = new TextBox();
-            lbl_Presupuesto = new Label();
             txt_Precio = new TextBox();
-            lbl_Precio = new Label();
             cmb_Estado = new ComboBox();
-            lbl_Estado = new Label();
             btn_Aceptar = new Button();
             btn_Buscar = new Button();
+            dtg_Reparaciones = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dtg_Reparaciones).BeginInit();
             SuspendLayout();
             // 
-            // dtg_Reparaciones
-            // 
-            dtg_Reparaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtg_Reparaciones.Location = new Point(23, 37);
-            dtg_Reparaciones.Name = "dtg_Reparaciones";
-            dtg_Reparaciones.RowTemplate.Height = 25;
-            dtg_Reparaciones.Size = new Size(355, 347);
-            dtg_Reparaciones.TabIndex = 0;
-            // 
-            // lbl_CodigoSerie
-            // 
-            lbl_CodigoSerie.AutoSize = true;
-            lbl_CodigoSerie.Location = new Point(413, 37);
-            lbl_CodigoSerie.Name = "lbl_CodigoSerie";
-            lbl_CodigoSerie.Size = new Size(91, 15);
-            lbl_CodigoSerie.TabIndex = 1;
-            lbl_CodigoSerie.Text = "Codigo De Serie";
-            // 
             // txt_CodigoSerie
             // 
-            txt_CodigoSerie.Location = new Point(413, 55);
+            txt_CodigoSerie.BackColor = Color.SteelBlue;
+            txt_CodigoSerie.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txt_CodigoSerie.ForeColor = Color.White;
+            txt_CodigoSerie.Location = new Point(22, 283);
             txt_CodigoSerie.Name = "txt_CodigoSerie";
-            txt_CodigoSerie.Size = new Size(100, 23);
+            txt_CodigoSerie.Size = new Size(100, 29);
             txt_CodigoSerie.TabIndex = 2;
+            txt_CodigoSerie.Text = "CODIGO";
             // 
             // txt_Presupuesto
             // 
+            txt_Presupuesto.BackColor = Color.SteelBlue;
             txt_Presupuesto.Enabled = false;
-            txt_Presupuesto.Location = new Point(413, 122);
+            txt_Presupuesto.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txt_Presupuesto.ForeColor = Color.White;
+            txt_Presupuesto.Location = new Point(22, 330);
             txt_Presupuesto.Name = "txt_Presupuesto";
-            txt_Presupuesto.Size = new Size(100, 23);
+            txt_Presupuesto.Size = new Size(117, 29);
             txt_Presupuesto.TabIndex = 4;
-            // 
-            // lbl_Presupuesto
-            // 
-            lbl_Presupuesto.AutoSize = true;
-            lbl_Presupuesto.Location = new Point(413, 104);
-            lbl_Presupuesto.Name = "lbl_Presupuesto";
-            lbl_Presupuesto.Size = new Size(72, 15);
-            lbl_Presupuesto.TabIndex = 3;
-            lbl_Presupuesto.Text = "Presupuesto";
+            txt_Presupuesto.Text = "PRESUPUESTO";
             // 
             // txt_Precio
             // 
+            txt_Precio.BackColor = Color.SteelBlue;
             txt_Precio.Enabled = false;
-            txt_Precio.Location = new Point(413, 193);
+            txt_Precio.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txt_Precio.ForeColor = Color.White;
+            txt_Precio.Location = new Point(154, 330);
             txt_Precio.Name = "txt_Precio";
-            txt_Precio.Size = new Size(100, 23);
+            txt_Precio.Size = new Size(100, 29);
             txt_Precio.TabIndex = 6;
-            // 
-            // lbl_Precio
-            // 
-            lbl_Precio.AutoSize = true;
-            lbl_Precio.Location = new Point(413, 175);
-            lbl_Precio.Name = "lbl_Precio";
-            lbl_Precio.Size = new Size(40, 15);
-            lbl_Precio.TabIndex = 5;
-            lbl_Precio.Text = "Precio";
+            txt_Precio.Text = "PRECIO";
             // 
             // cmb_Estado
             // 
+            cmb_Estado.BackColor = Color.SteelBlue;
             cmb_Estado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmb_Estado.Enabled = false;
+            cmb_Estado.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cmb_Estado.ForeColor = Color.White;
             cmb_Estado.FormattingEnabled = true;
-            cmb_Estado.Location = new Point(413, 270);
+            cmb_Estado.Location = new Point(78, 365);
             cmb_Estado.Name = "cmb_Estado";
-            cmb_Estado.Size = new Size(121, 23);
+            cmb_Estado.Size = new Size(121, 29);
             cmb_Estado.TabIndex = 8;
-            // 
-            // lbl_Estado
-            // 
-            lbl_Estado.AutoSize = true;
-            lbl_Estado.Location = new Point(413, 252);
-            lbl_Estado.Name = "lbl_Estado";
-            lbl_Estado.Size = new Size(42, 15);
-            lbl_Estado.TabIndex = 7;
-            lbl_Estado.Text = "Estado";
             // 
             // btn_Aceptar
             // 
-            btn_Aceptar.Location = new Point(409, 332);
+            btn_Aceptar.BackColor = Color.White;
+            btn_Aceptar.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btn_Aceptar.ForeColor = Color.SteelBlue;
+            btn_Aceptar.Location = new Point(353, 288);
             btn_Aceptar.Name = "btn_Aceptar";
             btn_Aceptar.Size = new Size(121, 71);
             btn_Aceptar.TabIndex = 9;
-            btn_Aceptar.Text = "Aceptar";
-            btn_Aceptar.UseVisualStyleBackColor = true;
+            btn_Aceptar.Text = "ACEPTAR";
+            btn_Aceptar.UseVisualStyleBackColor = false;
             btn_Aceptar.Click += btn_Aceptar_Click;
             // 
             // btn_Buscar
             // 
-            btn_Buscar.Location = new Point(531, 53);
+            btn_Buscar.BackColor = Color.White;
+            btn_Buscar.FlatAppearance.BorderSize = 0;
+            btn_Buscar.FlatStyle = FlatStyle.Flat;
+            btn_Buscar.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btn_Buscar.ForeColor = Color.SteelBlue;
+            btn_Buscar.Location = new Point(128, 284);
             btn_Buscar.Name = "btn_Buscar";
-            btn_Buscar.Size = new Size(24, 25);
+            btn_Buscar.Size = new Size(105, 28);
             btn_Buscar.TabIndex = 10;
-            btn_Buscar.UseVisualStyleBackColor = true;
+            btn_Buscar.Text = "MODIFICAR";
+            btn_Buscar.UseVisualStyleBackColor = false;
             btn_Buscar.Click += btn_Buscar_Click;
+            // 
+            // dtg_Reparaciones
+            // 
+            dtg_Reparaciones.AllowUserToAddRows = false;
+            dtg_Reparaciones.AllowUserToDeleteRows = false;
+            dtg_Reparaciones.AllowUserToResizeColumns = false;
+            dtg_Reparaciones.AllowUserToResizeRows = false;
+            dtg_Reparaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtg_Reparaciones.BackgroundColor = Color.SteelBlue;
+            dtg_Reparaciones.BorderStyle = BorderStyle.None;
+            dtg_Reparaciones.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dtg_Reparaciones.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.SteelBlue;
+            dataGridViewCellStyle1.Font = new Font("Yu Gothic UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.SteelBlue;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtg_Reparaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dtg_Reparaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.SteelBlue;
+            dataGridViewCellStyle2.Font = new Font("Yu Gothic UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtg_Reparaciones.DefaultCellStyle = dataGridViewCellStyle2;
+            dtg_Reparaciones.EnableHeadersVisualStyles = false;
+            dtg_Reparaciones.GridColor = Color.White;
+            dtg_Reparaciones.Location = new Point(12, 12);
+            dtg_Reparaciones.Name = "dtg_Reparaciones";
+            dtg_Reparaciones.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.SteelBlue;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtg_Reparaciones.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dtg_Reparaciones.RowHeadersVisible = false;
+            dtg_Reparaciones.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dtg_Reparaciones.RowTemplate.Height = 25;
+            dtg_Reparaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtg_Reparaciones.Size = new Size(569, 256);
+            dtg_Reparaciones.TabIndex = 11;
+            dtg_Reparaciones.CellContentClick += dtg_Reparaciones_CellContentClick;
             // 
             // Form_ModificarReparacion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(588, 450);
+            BackColor = Color.SteelBlue;
+            ClientSize = new Size(666, 657);
+            Controls.Add(dtg_Reparaciones);
             Controls.Add(btn_Buscar);
             Controls.Add(btn_Aceptar);
             Controls.Add(cmb_Estado);
-            Controls.Add(lbl_Estado);
             Controls.Add(txt_Precio);
-            Controls.Add(lbl_Precio);
             Controls.Add(txt_Presupuesto);
-            Controls.Add(lbl_Presupuesto);
             Controls.Add(txt_CodigoSerie);
-            Controls.Add(lbl_CodigoSerie);
-            Controls.Add(dtg_Reparaciones);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Form_ModificarReparacion";
             Text = "Form_ModificarReparacion";
             Load += Form_ModificarReparacion_Load;
@@ -164,17 +189,12 @@
         }
 
         #endregion
-
-        private DataGridView dtg_Reparaciones;
-        private Label lbl_CodigoSerie;
         private TextBox txt_CodigoSerie;
         private TextBox txt_Presupuesto;
-        private Label lbl_Presupuesto;
         private TextBox txt_Precio;
-        private Label lbl_Precio;
         private ComboBox cmb_Estado;
-        private Label lbl_Estado;
         private Button btn_Aceptar;
         private Button btn_Buscar;
+        private DataGridView dtg_Reparaciones;
     }
 }

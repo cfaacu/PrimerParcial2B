@@ -50,7 +50,7 @@ namespace Formularios
 
         private void btn_Crear_Click(object sender, EventArgs e)
         {
-            if(Validaciones.ValidarCampos(this.txt_NumeroSerie.Text,this.cmb_Tipo.Text,this.txt_Falla.Text) && this.cliente != null)
+            if (Validaciones.ValidarCampos(this.txt_NumeroSerie.Text, this.cmb_Tipo.Text, this.txt_Falla.Text) && this.cliente != null)
             {
                 Enumerado.ETiposDeReparaciones enumerado = (Enumerado.ETiposDeReparaciones)this.cmb_Tipo.SelectedIndex;
                 Reparacion reparacion = new Reparacion(this.txt_NumeroSerie.Text, enumerado, this.cliente, this.txt_Falla.Text);

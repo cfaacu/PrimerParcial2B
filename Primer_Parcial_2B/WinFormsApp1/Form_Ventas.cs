@@ -43,7 +43,7 @@ namespace Formularios
                     carrito.Push(producto);
                     if (CalcularPrecioTotal(producto, this.txt_Cantidad.Text))
                     {
-                        this.txt_Total.Text = this.precioTotal.ToString();
+                        this.Lbl_PrecioTotal.Text = $" ${this.precioTotal.ToString()}";
                     }
                 }
                 else
@@ -79,7 +79,6 @@ namespace Formularios
             }
 
         }
-
         private bool CalcularPrecioTotal(Producto producto, string cantidad)
         {
             double precio = 0;
@@ -91,10 +90,9 @@ namespace Formularios
             }
             return false;
         }
-
         private void btn_Confirmar_Click(object sender, EventArgs e)
         {
-            if(cliente != null)
+            if (cliente != null)
             {
                 Venta venta = new Venta(this.cliente, this.carrito, this.precioTotal);
                 Sistema.listaVentas.Add(venta);
