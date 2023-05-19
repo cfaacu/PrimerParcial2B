@@ -14,6 +14,7 @@ namespace Formularios
     public partial class Form_MenuPrincipal : Form
     {
         string modo;
+        private Form formularioActivo = null;
         public Form_MenuPrincipal(string modo)
         {
             InitializeComponent();
@@ -23,21 +24,11 @@ namespace Formularios
 
         private void PersonalizarDisenio()
         {
-            panelSubMenuClientes.Visible = false;
-            panelSubMenuProductos.Visible = false;
             panelSubMenuReparaciones.Visible = false;
         }
 
         private void OcultarSubMenu()
         {
-            if (panelSubMenuClientes.Visible == true)
-            {
-                panelSubMenuClientes.Visible = false;
-            }
-            if (panelSubMenuProductos.Visible == true)
-            {
-                panelSubMenuProductos.Visible = false;
-            }
             if (panelSubMenuReparaciones.Visible == true)
             {
                 panelSubMenuReparaciones.Visible = false;
@@ -59,17 +50,19 @@ namespace Formularios
 
         private void btn_Productos_Click(object sender, EventArgs e)
         {
-            MostrarSubMenu(this.panelSubMenuProductos);
+            Form_Productos form_Productos = new Form_Productos();
+            AbrirFormularioHijo(form_Productos);
         }
 
         private void btn_Clientes_Click(object sender, EventArgs e)
         {
-            MostrarSubMenu(this.panelSubMenuClientes);
+            Form_Clientes form_Clientes = new Form_Clientes();
+            AbrirFormularioHijo(form_Clientes);
         }
 
-        private Form formularioActivo = null;
         private void AbrirFormularioHijo(Form formularioHijo)
         {
+            OcultarSubMenu();
             if (formularioActivo != null)
             {
                 formularioActivo.Close();
@@ -84,81 +77,22 @@ namespace Formularios
             formularioHijo.Show();
         }
 
-        private void btn_AgregarProducto_Click(object sender, EventArgs e)
-        {
-            Form_ABM_Productos form_Productos = new Form_ABM_Productos("alta");
-            AbrirFormularioHijo(form_Productos);
-            OcultarSubMenu();
-        }
-
-        private void btn_ModificarProducto_Click(object sender, EventArgs e)
-        {
-            Form_ABM_Productos form_Productos = new Form_ABM_Productos("modificar");
-            AbrirFormularioHijo(form_Productos);
-            OcultarSubMenu();
-        }
-
-        private void btn_EliminarProducto_Click(object sender, EventArgs e)
-        {
-            Form_ABM_Productos form_Productos = new Form_ABM_Productos("baja");
-            AbrirFormularioHijo(form_Productos);
-            OcultarSubMenu();
-        }
-
-        private void btn_AgregarCliente_Click(object sender, EventArgs e)
-        {
-            Form_ABM_Clientes form_Clientes = new Form_ABM_Clientes("alta");
-            AbrirFormularioHijo(form_Clientes);
-            OcultarSubMenu();
-        }
-
-        private void btn_ModificarCliente_Click(object sender, EventArgs e)
-        {
-            Form_ABM_Clientes form_Clientes = new Form_ABM_Clientes("modificar");
-            AbrirFormularioHijo(form_Clientes);
-            OcultarSubMenu();
-        }
-
-        private void btn_EliminarCliente_Click(object sender, EventArgs e)
-        {
-            Form_ABM_Clientes form_Clientes = new Form_ABM_Clientes("baja");
-            AbrirFormularioHijo(form_Clientes);
-            OcultarSubMenu();
-        }
-
-        private void btn_MostrarClientes_Click(object sender, EventArgs e)
-        {
-            Form_Listado form_Listado = new Form_Listado("clientes");
-            AbrirFormularioHijo(form_Listado);
-            OcultarSubMenu();
-        }
-
         private void btn_AgregarReparacion_Click(object sender, EventArgs e)
         {
             Form_AltaReparacion form_AltaReparacion = new Form_AltaReparacion();
             AbrirFormularioHijo(form_AltaReparacion);
-            OcultarSubMenu();
         }
 
         private void btn_ModificarReparacion_Click(object sender, EventArgs e)
         {
             Form_ModificarReparacion form_modificarReparacion = new Form_ModificarReparacion();
             AbrirFormularioHijo(form_modificarReparacion);
-            OcultarSubMenu();
         }
 
         private void btn_MostrarReparaciones_Click(object sender, EventArgs e)
         {
             Form_Listado form_Listado = new Form_Listado("reparacion");
             AbrirFormularioHijo(form_Listado);
-            OcultarSubMenu();
-        }
-
-        private void btn_MostrarProducto_Click(object sender, EventArgs e)
-        {
-            Form_Listado form_Listado = new Form_Listado("productos");
-            AbrirFormularioHijo(form_Listado);
-            OcultarSubMenu();
         }
 
         private void btn_Reparacion_Click(object sender, EventArgs e)
@@ -168,7 +102,6 @@ namespace Formularios
 
         private void btn_GenerarVenta_Click(object sender, EventArgs e)
         {
-            OcultarSubMenu();
             Form_Ventas form_Ventas = new Form_Ventas();
             AbrirFormularioHijo(form_Ventas);
         }
@@ -200,14 +133,10 @@ namespace Formularios
 
         private void Form_MenuPrincipal_Load(object sender, EventArgs e)
         {
-            if (this.modo == "empleado")
-            {
-                this.btn_EliminarCliente.Enabled = false;
-                this.btn_EliminarProducto.Enabled = false;
-            }
             if (this.modo == "admin")
             {
                 this.btn_MostrarVentas.Visible = true;
+                this.btn_AdministrarUsuario.Visible = true;
             }
         }
 
@@ -215,7 +144,12 @@ namespace Formularios
         {
             Form_Listado form_Listado = new Form_Listado("ventas");
             AbrirFormularioHijo(form_Listado);
-            OcultarSubMenu();
+        }
+
+        private void btn_AdministrarUsuario_Click(object sender, EventArgs e)
+        {
+            Form_AdministrarUsuarios form_Admin = new Form_AdministrarUsuarios();
+            form_Admin.Show();
         }
     }
 }

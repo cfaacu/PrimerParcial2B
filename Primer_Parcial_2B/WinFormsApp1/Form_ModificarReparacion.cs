@@ -21,6 +21,7 @@ namespace Formularios
 
         private void Form_ModificarReparacion_Load(object sender, EventArgs e)
         {
+            this.cmb_Estado.SelectedIndex = 0;
             dtg_Reparaciones.Columns.Add("Serie", "SERIE");
             dtg_Reparaciones.Columns.Add("Cliente", "CLIENTE");
             dtg_Reparaciones.Columns.Add("Tipo", "TIPO");
@@ -93,6 +94,11 @@ namespace Formularios
         {
             int posicion = dtg_Reparaciones.CurrentRow.Index;
             txt_CodigoSerie.Text = dtg_Reparaciones[0, posicion].Value.ToString();
+        }
+
+        private void cmb_Estado_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.cmb_Estado.Items.Remove("ESTADO");
         }
     }
 }

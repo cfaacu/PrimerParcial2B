@@ -1,6 +1,4 @@
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.csproj.AssemblyReference.cache
-D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_ABM_Clientes.resources
-D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_ABM_Productos.resources
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_Login.resources
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_MenuPrincipal.resources
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_Ventas.resources
@@ -26,3 +24,8 @@ D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_AltaReparacion.resources
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_ModificarReparacion.resources
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Properties.Resources.resources
+D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_Clientes.resources
+D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_AMCliente.resources
+D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_AMProducto.resources
+D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_Productos.resources
+D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_AdministrarUsuarios.resources

@@ -12,39 +12,69 @@ namespace Entidades
     {
         public static bool StringSoloLetras(string nombre)
         {
-            nombre = nombre.ToLower();
-            for (int i = 0; i < nombre.Length; i++)
+            bool retorno;
+
+            if(Validaciones.StringCargado(nombre))
             {
-                if (!(nombre[i] >= 'a' && nombre[i] <= 'z' || nombre[i] == ' '))
+                nombre = nombre.ToLower();
+                for (int i = 0; i < nombre.Length; i++)
                 {
-                    return false;
+                    if (!(nombre[i] >= 'a' && nombre[i] <= 'z' || nombre[i] == ' '))
+                    {
+                        retorno = false;
+                    }
                 }
+                retorno = true;
             }
-            return true;
+            else
+            {
+                retorno = false;
+            }
+
+            return retorno;
         }
 
+        public static bool StringCargado(string cadena)
+        {
+            if (string.IsNullOrEmpty(cadena) == false)
+            {
+                foreach (char item in cadena)
+                {
+                    if (item != ' ')
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         public static bool StringSoloNumeros(string cadena)
         {
-            if(cadena is not null)
+            bool retorno;
+            if (Validaciones.StringCargado(cadena))
             {
                 foreach (char c in cadena)
                 {
                     if (!Char.IsDigit(c))
                     {
-                        return false;
+                        retorno = false;
                     }
                 }
-                return true;
+                retorno = true;
             }
             else
-            { return false; }
+            { retorno = false; }
+
+            return retorno;
         }
 
         public static bool EsDNIValido(string dni)
         {
-            if (dni.Length != 8 || dni[0] == '0')
+            bool retorno;
+
+            if (dni.Length != 8 || dni[0] == '0' || string.IsNullOrEmpty(dni) && Validaciones.StringCargado(dni))
             {
-                return false;
+                retorno = false;
             }
             else
             {
@@ -52,23 +82,25 @@ namespace Entidades
                 {
                     if (!Char.IsDigit(c))
                     {
-                        return false;
+                        retorno = false;
                     }
                 }
-                return true;
+                retorno = true;
             }
+
+            return retorno;
         }
         public static bool ValidarCampos(string nombre, string apellido, string dni, string usuario, string password)
         {
-            if (!string.IsNullOrEmpty(nombre) && Validaciones.StringSoloLetras(nombre))
+            if (Validaciones.StringSoloLetras(nombre))
             {
-                if (!string.IsNullOrEmpty(apellido) && Validaciones.StringSoloLetras(apellido))
+                if (Validaciones.StringSoloLetras(apellido))
                 {
-                    if (!string.IsNullOrEmpty(dni) && Validaciones.EsDNIValido(dni))
+                    if (Validaciones.EsDNIValido(dni))
                     {
-                        if (!string.IsNullOrEmpty(usuario))
+                        if (Validaciones.StringCargado(usuario))
                         {
-                            if (!string.IsNullOrEmpty(password))
+                            if (Validaciones.StringCargado(password))
                             {
                                 return true;
                             }
@@ -80,17 +112,17 @@ namespace Entidades
         }
         public static bool ValidarCampos(string codigo, string nombre, string categoria, string precioVenta, string precioCompra, string cantidad)
         {
-            if (!string.IsNullOrEmpty(codigo))
+            if (Validaciones.StringCargado(codigo))
             {
-                if (!string.IsNullOrEmpty(nombre))
+                if (Validaciones.StringCargado(nombre))
                 {
-                    if (!string.IsNullOrEmpty(categoria))
+                    if (Validaciones.StringCargado(categoria))
                     {
-                        if (!string.IsNullOrEmpty(precioVenta) && int.TryParse(precioVenta, out int numero))
+                        if (Validaciones.NumerosPositivos(precioVenta))
                         {
-                            if (!string.IsNullOrEmpty(precioCompra) && int.TryParse(precioCompra, out int numero2))
+                            if (Validaciones.NumerosPositivos(precioCompra))
                             {
-                                if (!string.IsNullOrEmpty(cantidad) && int.TryParse(cantidad, out int numero3))
+                                if (Validaciones.NumerosPositivos(cantidad))
                                 {
                                     return true;
                                 }
@@ -104,11 +136,11 @@ namespace Entidades
 
         public static bool ValidarCampos(string numeroSerie, string TipoReparacion, string falla)
         {
-            if (!string.IsNullOrEmpty(numeroSerie))
+            if (Validaciones.StringCargado(numeroSerie))
             {
-                if (!string.IsNullOrEmpty(TipoReparacion))
+                if (Validaciones.StringCargado(TipoReparacion))
                 {
-                    if (!string.IsNullOrEmpty(falla))
+                    if (Validaciones.StringCargado(falla))
                     {
                         return true;
                     }
@@ -119,11 +151,11 @@ namespace Entidades
 
         public static bool ValidarCamposReparacion(string presupuesto, string estado, string precio)
         {
-            if (!string.IsNullOrEmpty(presupuesto))
+            if (Validaciones.StringCargado(presupuesto))
             {
-                if (!string.IsNullOrEmpty(estado))
+                if (Validaciones.StringCargado(estado))
                 {
-                    if (!string.IsNullOrEmpty(precio) && Validaciones.StringSoloNumeros(precio))
+                    if (Validaciones.NumerosPositivos(precio))
                     {
                         return true;
                     }
@@ -134,20 +166,32 @@ namespace Entidades
 
         public static bool ValidarCamposClientes(string nombre, string apellido, string dni, string telefono, string direccion)
         {
-            if (!string.IsNullOrEmpty(nombre) && Validaciones.StringSoloLetras(nombre))
+            if (Validaciones.StringSoloLetras(nombre))
             {
-                if (!string.IsNullOrEmpty(apellido) && Validaciones.StringSoloLetras(apellido))
+                if (Validaciones.StringSoloLetras(apellido))
                 {
-                    if (!string.IsNullOrEmpty(dni) && Validaciones.EsDNIValido(dni))
+                    if (Validaciones.EsDNIValido(dni))
                     {
-                        if (!string.IsNullOrEmpty(telefono) && Validaciones.StringSoloNumeros(telefono))
+                        if (Validaciones.StringSoloNumeros(telefono))
                         {
-                            if (!string.IsNullOrEmpty(direccion))
+                            if (Validaciones.StringCargado(direccion))
                             {
                                 return true;
                             }
                         }
                     }
+                }
+            }
+            return false;
+        }
+
+        public static bool NumerosPositivos(string numero)
+        {
+            if(double.TryParse(numero, out double numeroInt))
+            {
+                if(numeroInt > 0)
+                {
+                    return true;
                 }
             }
             return false;

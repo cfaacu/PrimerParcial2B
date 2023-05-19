@@ -44,6 +44,7 @@ namespace Formularios
 
         private void Form_AltaReparacion_Load(object sender, EventArgs e)
         {
+            cmb_Tipo.SelectedIndex = 0;
             string[] valores = Enum.GetNames(typeof(Enumerado.ETiposDeReparaciones));
             cmb_Tipo.Items.AddRange(valores);
         }
@@ -55,7 +56,13 @@ namespace Formularios
                 Enumerado.ETiposDeReparaciones enumerado = (Enumerado.ETiposDeReparaciones)this.cmb_Tipo.SelectedIndex;
                 Reparacion reparacion = new Reparacion(this.txt_NumeroSerie.Text, enumerado, this.cliente, this.txt_Falla.Text);
                 Sistema.listaReparaciones.Add(reparacion);
+                this.Close();
             }
+        }
+
+        private void cmb_Tipo_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.cmb_Tipo.Items.Remove("TIPO DE REPARACION");
         }
     }
 }

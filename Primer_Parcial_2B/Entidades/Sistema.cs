@@ -30,10 +30,10 @@ namespace Entidades
 
         private static void CargarDatos()
         {
-            Empleado emp1 = new Empleado("Facundo", "Careri", 42252911,"Facu", "asd123");
-            Empleado emp2 = new Empleado("Pepe", "Gomez", 42252221,"Pepe1234", "123456");
-            Administrador admin1 = new Administrador("admin", "admin", 12345678, "admin", "admin");
-            Administrador admin2 = new Administrador("roberto", "carlos", 12345674, "robert123", "asd123");
+            Empleado emp1 = new Empleado("Facundo", "Careri", 42252911,"Facu", "asd123",false);
+            Empleado emp2 = new Empleado("Pepe", "Gomez", 42252221,"Pepe1234", "123456",false);
+            Empleado admin1 = new Empleado("admin", "admin", 12345678, "admin", "admin",true);
+            Empleado admin2 = new Empleado("roberto", "carlos", 12345674, "robert123", "asd123",true);
             Producto producto1 = new Producto("123456","Gta 5", Enumerado.ECategoria.Juego,10000,5000,100);
             Producto producto2 = new Producto("42502f","PS4", Enumerado.ECategoria.Consola,120000,50000, 100);
             Producto producto3 = new Producto("TazaGow","Taza Ceramica Gow", Enumerado.ECategoria.Merchandising,1200,800, 100);
@@ -183,7 +183,7 @@ namespace Entidades
         {
             if(producto != null && int.TryParse(cantidad, out int cantidadInt))
             {
-                if(producto.Cantidad >= cantidadInt)
+                if(producto.Cantidad >= cantidadInt && cantidadInt > 0)
                 {
                     producto.Cantidad = producto.Cantidad - cantidadInt;
                     return true;
@@ -201,5 +201,31 @@ namespace Entidades
             }
             return total;
         }
+
+        public static Empleado BuscarEmpleado(string dni)
+        {
+            if (int.TryParse(dni, out int dniInt))
+            {
+                foreach (Empleado item in listaEmpleados)
+                {
+                    if (item.Dni == dniInt)
+                    {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
+        public static bool EliminarEmpleado(string dni)
+        {
+            Empleado empleado = BuscarEmpleado(dni);
+            if (empleado != null)
+            {
+                listaEmpleados.Remove(empleado);
+                return true;
+            }
+            return false;
+        }
     }
+    
 }

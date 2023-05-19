@@ -28,12 +28,11 @@ namespace Formularios
         }
 
         private void btn_Agregar_Click(object sender, EventArgs e)
-        {
-            int n = dtg_Productos.Rows.Add();
-
+        {  
             Producto producto = Sistema.BuscarProducto(this.txt_Codigo.Text);
             if (producto != null)
             {
+                int n = dtg_Productos.Rows.Add();
                 if (Sistema.RestarStock(producto, this.txt_Cantidad.Text))
                 {
                     dtg_Productos.Rows[n].Cells[0].Value = producto.Codigo;
@@ -52,32 +51,12 @@ namespace Formularios
                     MessageBox.Show("Error sin stock", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            this.txt_Cantidad.Text = string.Empty;
-            this.txt_Codigo.Text = string.Empty;
-        }
-
-        private void btn_Buscar_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(this.txt_DNI.Text))
-            {
-                cliente = Sistema.BuscarCliente(this.txt_DNI.Text);
-                if (cliente != null)
-                {
-                    this.txt_Nombre.Text = cliente.Nombre;
-                    this.txt_Apellido.Text = cliente.Apellido;
-                    this.txt_Direccion.Text = cliente.Direccion;
-                    this.txt_Telefono.Text = cliente.Telefono.ToString();
-                }
-                else
-                {
-                    MessageBox.Show("Error DNI invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
             else
             {
-                MessageBox.Show("Error ingrese un DNI", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error codigo invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            this.txt_Cantidad.Text = string.Empty;
+            this.txt_Codigo.Text = string.Empty;
         }
         private bool CalcularPrecioTotal(Producto producto, string cantidad)
         {
@@ -102,6 +81,38 @@ namespace Formularios
             {
                 MessageBox.Show("Error ingrese un cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btn_Listar_Click(object sender, EventArgs e)
+        {
+            Form_Clientes form_Clientes = new Form_Clientes();
+            form_Clientes.ShowDialog();
+        }
+
+        private void btn_Buscar_Click_1(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.txt_DNI.Text))
+            {
+                cliente = Sistema.BuscarCliente(this.txt_DNI.Text);
+                if (cliente != null)
+                {
+                    this.txt_Nombre.Text = cliente.Nombre;
+                }
+                else
+                {
+                    MessageBox.Show("Error DNI invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error ingrese un DNI", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_ListarProducto_Click(object sender, EventArgs e)
+        {
+            Form_Productos form_Productos = new Form_Productos();
+            form_Productos.ShowDialog();
         }
     }
 }

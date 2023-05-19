@@ -59,5 +59,25 @@ namespace Formularios.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap delete_remove_bin_icon_icons_com_72400 {
+            get {
+                object obj = ResourceManager.GetObject("delete_remove_bin_icon-icons.com_72400", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap edit_pencil_paper_modify_write_icon_141958 {
+            get {
+                object obj = ResourceManager.GetObject("edit_pencil_paper_modify_write_icon_141958", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
