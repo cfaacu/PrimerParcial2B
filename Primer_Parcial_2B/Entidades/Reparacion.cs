@@ -8,6 +8,7 @@ namespace Entidades
 {
     public class Reparacion
     {
+        private Guid id;
         private Cliente cliente;
         private string numeroSerie;
         private Enumerado.ETiposDeReparaciones tipoDeReparacion;
@@ -16,7 +17,8 @@ namespace Entidades
         private string presupuesto;
         private double precio;
 
-        public string NumeroSerie { get => numeroSerie;}
+        public Guid Id { get => id; set => id = value;  } 
+        public string NumeroSerie { get => numeroSerie; set => numeroSerie = value; }
         public Enumerado.ETiposDeReparaciones TipoDeReparacion { get => tipoDeReparacion; set => tipoDeReparacion = value; }
         public Enumerado.EEstado Estado { get => estado; set => estado = value; }
         public string Presupuesto { get => presupuesto; set => presupuesto = value; }
@@ -24,8 +26,13 @@ namespace Entidades
         public Cliente Cliente { get => cliente; set => cliente = value; }
         public string Falla { get => falla; set => falla = value; }
 
-        public Reparacion(string numeroSerie, Enumerado.ETiposDeReparaciones tipoDeReparacion, Cliente cliente, string falla)
+        public Reparacion()
         {
+            
+        }
+        public Reparacion(Guid id, string numeroSerie, Enumerado.ETiposDeReparaciones tipoDeReparacion, Cliente cliente, string falla)
+        {
+            this.id = id;
             this.numeroSerie = numeroSerie;
             this.TipoDeReparacion = tipoDeReparacion;
             this.Estado = Enumerado.EEstado.Abierto;
@@ -33,7 +40,7 @@ namespace Entidades
             Falla = falla;
         }
 
-        public Reparacion(string numeroSerie, Enumerado.ETiposDeReparaciones tipoDeReparacion, Enumerado.EEstado estado, string presupuesto, double precio, Cliente cliente, string falla) : this(numeroSerie,tipoDeReparacion,cliente,falla)
+        public Reparacion(Guid id, string numeroSerie, Enumerado.ETiposDeReparaciones tipoDeReparacion, Enumerado.EEstado estado, string presupuesto, double precio, Cliente cliente, string falla) : this(id, numeroSerie,tipoDeReparacion,cliente,falla)
         {
             this.Presupuesto = presupuesto;
             this.Precio = precio;

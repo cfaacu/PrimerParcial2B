@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Entidades.DB_SQL;
 
 namespace Entidades
 {
@@ -15,15 +16,26 @@ namespace Entidades
         static public List<Venta> listaVentas;
         static private Stack<Producto> carrito;
         static public List<Reparacion> listaReparaciones;
+        static ProductoDB dbProdService;
+        static ClienteDB dbClientService;
+        static VentaDB dbVentaService;
+        static ReparacionesDB dbReparacionService;
+        static EmpleadoDB dbEmpleadoService;
+
 
         static Sistema()
         {
+            dbProdService = new ProductoDB();
+            dbClientService = new ClienteDB();
+            dbVentaService = new VentaDB();
+            dbEmpleadoService = new EmpleadoDB();
+            dbReparacionService = new ReparacionesDB();
             listaEmpleados = new List<Empleado>();
-            listaProductos = new List<Producto>();
-            listaClientes = new List<Cliente>();
-            listaVentas = new List<Venta>();
+            listaProductos = dbProdService.TraerTodo();
+            listaClientes = dbClientService.TraerTodo();
+            listaVentas = dbVentaService.TraerTodo();
             carrito = new Stack<Producto>();
-            listaReparaciones = new List<Reparacion>();
+            listaReparaciones = dbReparacionService.TraerTodo();
    
             Sistema.CargarDatos();
         }
@@ -40,14 +52,14 @@ namespace Entidades
             Cliente cliente1 = new Cliente("Sofia", "Lopez", 32451978, "calle123", 1123289499);
             Cliente cliente2 = new Cliente("Luisito", "Comunica", 52451238, "Espacio", 1186129499);
             Cliente cliente3 = new Cliente("Emanuel", "Noir", 21451228, "KEPERSONAJES", 1186188669);
-            Reparacion reparacion1 = new Reparacion("123456", Enumerado.ETiposDeReparaciones.JoystickPs4, cliente1, "No enciende");
-            Reparacion reparacion2 = new Reparacion("123457", Enumerado.ETiposDeReparaciones.Ps3, cliente2, "Prende y apaga");
+            //Reparacion reparacion1 = new Reparacion("123456", Enumerado.ETiposDeReparaciones.JoystickPs4, cliente1, "No enciende");
+            //Reparacion reparacion2 = new Reparacion("123457", Enumerado.ETiposDeReparaciones.Ps3, cliente2, "Prende y apaga");
             carrito.Push(producto1);
             carrito.Push(producto2);
             carrito.Push(producto3);
 
-            Venta venta1 = new Venta(cliente1, carrito);
-            Venta venta2 = new Venta(cliente2, carrito);
+            //Venta venta1 = new Venta(cliente1, carrito);
+            //Venta venta2 = new Venta(cliente2, carrito);
 
             listaEmpleados.Add(emp1);
             listaEmpleados.Add(emp2);
@@ -59,25 +71,10 @@ namespace Entidades
             listaClientes.Add(cliente1);
             listaClientes.Add(cliente2);
             listaClientes.Add(cliente3);
-            listaVentas.Add(venta1);
-            listaVentas.Add(venta2);
-            listaReparaciones.Add(reparacion1);
-            listaReparaciones.Add(reparacion2);
-        }
-
-        public static Empleado LoguearUsuario(string usuario, string password)
-        {
-            if ((!string.IsNullOrEmpty(usuario)) && (!string.IsNullOrEmpty(password)))
-            {
-                foreach (Empleado item in listaEmpleados)
-                {
-                    if (item.Usuario.Trim().ToLower() == usuario.Trim().ToLower() && item.Password.Trim() == password.Trim())
-                    {
-                        return item;
-                    }
-                }
-            }
-            return null;
+            //listaVentas.Add(venta1);
+            //listaVentas.Add(venta2);
+            //listaReparaciones.Add(reparacion1);
+            //listaReparaciones.Add(reparacion2);
         }
 
         public static bool EliminarProducto(string codigo)
@@ -103,12 +100,9 @@ namespace Entidades
 
         public static Producto BuscarProducto(string codigo)
         {
-            foreach (Producto item in listaProductos)
+            if(Validaciones.StringCargado(codigo))
             {
-                if (item.Codigo == codigo)
-                {
-                    return item;
-                }
+                return dbProdService.Traer(codigo);
             }
             return null;
         }
@@ -138,13 +132,7 @@ namespace Entidades
         {
             if(int.TryParse(dni, out int dniInt))
             {
-                foreach (Cliente item in listaClientes)
-                {
-                    if (item.Dni == dniInt)
-                    {
-                        return item;
-                    }
-                }
+                return dbClientService.Traer(dni);
             }
             return null;
         }
@@ -153,13 +141,7 @@ namespace Entidades
         {
             if (!string.IsNullOrEmpty(codigoSerie))
             {
-                foreach (Reparacion item in listaReparaciones)
-                {
-                    if (item.NumeroSerie == codigoSerie)
-                    {
-                        return item;
-                    }
-                }
+               return dbReparacionService.Traer(codigoSerie);
             }
             return null;
         }
@@ -190,6 +172,15 @@ namespace Entidades
                 }
             }
             return false;
+        }
+
+        public static bool ValidarProducto(ProductoVenta producto)
+        {
+            return (producto.Producto is not null && producto.Cantidad>0 && ValidarStock(producto.Producto, producto.Cantidad));
+        }
+        private static bool ValidarStock(Producto producto, int cantidad)
+        {
+            return producto.Cantidad >= cantidad;
         }
 
         public static double CalcularVentasTotales(List<Venta> listaVentas)

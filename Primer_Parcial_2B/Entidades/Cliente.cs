@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entidades.DB_SQL;
 
 namespace Entidades
 {
-    public class Cliente : Persona
+    public class Cliente : Persona, IABM<Cliente>
     {
         private int telefono;
         private string direccion;
         private List<Reparacion> reparaciones;
+        ClienteDB dbClienteService;
 
         public int Telefono { get => telefono; set => telefono = value; }
         public string Direccion { get => direccion; set => direccion = value; }
@@ -20,8 +22,12 @@ namespace Entidades
             this.Telefono = telefono;
             this.Direccion = direccion;
             reparaciones = new List<Reparacion>();
+            dbClienteService = new ClienteDB();
         }
-
+        public Cliente()
+        {
+            dbClienteService = new ClienteDB();
+        }
         public void AgregarReparacion(Reparacion reparacion)
         {
             if(reparacion != null)
@@ -46,6 +52,46 @@ namespace Entidades
             sb.AppendLine(Telefono.ToString());
 
             return sb.ToString();
+        }
+
+        public bool Agregar()
+        {
+            try
+            {
+                dbClienteService.Agregar(this);
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool Modificar(Cliente obj)
+        {
+            try
+            {
+                dbClienteService.Editar(obj);
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool Borrar()
+        {
+            try
+            {
+                dbClienteService.Borrar(this.Dni.ToString());
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

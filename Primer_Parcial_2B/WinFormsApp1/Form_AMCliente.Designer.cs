@@ -149,7 +149,6 @@
             lbl_Titulo.TabIndex = 36;
             lbl_Titulo.Text = "MODIFICAR CLIENTE";
             lbl_Titulo.TextAlign = ContentAlignment.MiddleCenter;
-            lbl_Titulo.Click += label1_Click;
             // 
             // Form_AMCliente
             // 

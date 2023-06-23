@@ -8,55 +8,76 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.DB_SQL;
 
 namespace Formularios
 {
     public partial class Form_Ventas : Form
     {
-        private Stack<Producto> carrito;
+        private Stack<ProductoVenta> carrito;
         private double precioTotal = 0;
         Cliente cliente;
+        Venta venta;
+        VentaDB ventasService; 
+
+        ClienteDB clienteService;
         public Form_Ventas()
         {
             InitializeComponent();
-            carrito = new Stack<Producto>();
+            carrito = new Stack<ProductoVenta>();
+            venta = new Venta();
+            clienteService = new ClienteDB();
+            ventasService = new VentaDB();
         }
 
         private void Form_Ventas_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btn_Agregar_Click(object sender, EventArgs e)
-        {  
-            Producto producto = Sistema.BuscarProducto(this.txt_Codigo.Text);
-            if (producto != null)
+        {
+            try
             {
-                int n = dtg_Productos.Rows.Add();
-                if (Sistema.RestarStock(producto, this.txt_Cantidad.Text))
+                var productito = new ProductoVenta
                 {
-                    dtg_Productos.Rows[n].Cells[0].Value = producto.Codigo;
-                    dtg_Productos.Rows[n].Cells[1].Value = producto.Nombre;
-                    dtg_Productos.Rows[n].Cells[2].Value = this.txt_Cantidad.Text;
-                    dtg_Productos.Rows[n].Cells[3].Value = producto.PrecioVenta;
-                    carrito.Push(producto);
-                    if (CalcularPrecioTotal(producto, this.txt_Cantidad.Text))
+                    Cantidad = int.Parse(this.txt_Cantidad.Text),
+                    Producto = Sistema.BuscarProducto(this.txt_Codigo.Text)
+                };
+
+                if (productito.Producto != null)
+                {
+                    int n = dtg_Productos.Rows.Add();
+                    if (Sistema.ValidarProducto(productito))
                     {
-                        this.Lbl_PrecioTotal.Text = $" ${this.precioTotal.ToString()}";
+                        dtg_Productos.Rows[n].Cells[0].Value = productito.Producto.Codigo;
+                        dtg_Productos.Rows[n].Cells[1].Value = productito.Producto.Nombre;
+                        dtg_Productos.Rows[n].Cells[2].Value = productito.Cantidad;
+                        dtg_Productos.Rows[n].Cells[3].Value = productito.Producto.PrecioVenta;
+                        carrito.Push(productito);
+                        if (CalcularPrecioTotal(productito.Producto, this.txt_Cantidad.Text))
+                        {
+                            this.Lbl_PrecioTotal.Text = $" ${this.precioTotal}";
+                        }
+                    }
+                    else
+                    {
+                        dtg_Productos.Rows.RemoveAt(n);
+                        MessageBox.Show("Error sin stock", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    dtg_Productos.Rows.RemoveAt(n);
-                    MessageBox.Show("Error sin stock", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error codigo invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                this.txt_Cantidad.Text = string.Empty;
+                this.txt_Codigo.Text = string.Empty;
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("Error codigo invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                MessageBox.Show("Error inesperado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            this.txt_Cantidad.Text = string.Empty;
-            this.txt_Codigo.Text = string.Empty;
+
         }
         private bool CalcularPrecioTotal(Producto producto, string cantidad)
         {
@@ -69,17 +90,37 @@ namespace Formularios
             }
             return false;
         }
-        private void btn_Confirmar_Click(object sender, EventArgs e)
+        private async void btn_Confirmar_Click(object sender, EventArgs e)
         {
-            if (cliente != null)
+            try
             {
-                Venta venta = new Venta(this.cliente, this.carrito, this.precioTotal);
-                Sistema.listaVentas.Add(venta);
-                this.Close();
+                if(this.carrito.Count <= 0)
+                {
+                    MessageBox.Show("ERROR venta vacia", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    DialogResult resultado = MessageBox.Show("¿Desea confirmar la venta?", "Confirmación de venta", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (resultado == DialogResult.Yes)
+                    {
+                        this.venta.IdVenta = Guid.NewGuid();
+                        this.venta.Detalle = this.carrito.ToList();
+                        this.venta.Cliente = clienteService.Traer(this.txt_DNI.Text);
+                        this.venta.Fecha = DateTime.Now;
+                        await ventasService.Agregar(venta);
+                        this.Close();
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
+                }
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("Error ingrese un cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                MessageBox.Show("Error al generar la venta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -13,9 +13,14 @@ namespace Formularios
 {
     public partial class Form_Productos : Form
     {
+        ProductoDB dbProductoService;
+        Producto producto;
+        List<Producto> productos;
         public Form_Productos()
         {
             InitializeComponent();
+            dbProductoService = new ProductoDB();
+            productos = new List<Producto>();
         }
 
         private void Form_Productos_Load(object sender, EventArgs e)
@@ -25,17 +30,26 @@ namespace Formularios
 
         private void LlenarDataGridView()
         {
-            foreach (Producto producto in Sistema.listaProductos)
+            try
             {
-                int n = dtg_ListadoProductos.Rows.Add();
+                productos = dbProductoService.TraerTodo();
+                foreach (Producto producto in productos)
+                {
+                    int n = dtg_ListadoProductos.Rows.Add();
 
-                dtg_ListadoProductos.Rows[n].Cells[0].Value = producto.Codigo;
-                dtg_ListadoProductos.Rows[n].Cells[1].Value = producto.Nombre;
-                dtg_ListadoProductos.Rows[n].Cells[2].Value = producto.Categoria;
-                dtg_ListadoProductos.Rows[n].Cells[3].Value = producto.Cantidad;
-                dtg_ListadoProductos.Rows[n].Cells[4].Value = producto.PrecioVenta;
-                dtg_ListadoProductos.Rows[n].Cells[5].Value = producto.PrecioCompra;
+                    dtg_ListadoProductos.Rows[n].Cells[0].Value = producto.Codigo;
+                    dtg_ListadoProductos.Rows[n].Cells[1].Value = producto.Nombre;
+                    dtg_ListadoProductos.Rows[n].Cells[2].Value = producto.Categoria;
+                    dtg_ListadoProductos.Rows[n].Cells[3].Value = producto.Cantidad;
+                    dtg_ListadoProductos.Rows[n].Cells[4].Value = producto.PrecioVenta;
+                    dtg_ListadoProductos.Rows[n].Cells[5].Value = producto.PrecioCompra;
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al traer los productos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
         }
 
         private void btn_Agregar_Click(object sender, EventArgs e)
@@ -59,7 +73,16 @@ namespace Formularios
                 DialogResult dg = MessageBox.Show("Desea eliminar el producto?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dg == DialogResult.Yes)
                 {
-                    Sistema.EliminarProducto(codigo);
+                    try
+                    {
+                        producto = dbProductoService.Traer(codigo);
+                        producto.Borrar();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Error al eliminar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
                 }
             }
             dtg_ListadoProductos.Rows.Clear();

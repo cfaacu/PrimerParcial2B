@@ -18,7 +18,10 @@ namespace Entidades
             this.Apellido = apellido;
             this.Dni = dni;
         }
-
+        public Persona()
+        {
+            
+        }
         public virtual string MostrarDatos()
         {
             StringBuilder sb = new StringBuilder();

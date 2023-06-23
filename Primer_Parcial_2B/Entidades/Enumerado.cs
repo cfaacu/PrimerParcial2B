@@ -38,7 +38,14 @@ namespace Entidades
             Juego,
             Accesorio,
             Merchandising,
-            Consola
+            Consola,
+            Otro
+        }
+
+        public enum ETipo
+        {
+            XML,
+            JSON
         }
     }
 

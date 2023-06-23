@@ -8,15 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.DB_SQL;
 
 namespace Formularios
 {
     public partial class Form_ModificarReparacion : Form
     {
         Reparacion reparacion;
+        ReparacionesDB dbReparacionesService;
         public Form_ModificarReparacion()
         {
             InitializeComponent();
+            dbReparacionesService = new ReparacionesDB();
         }
 
         private void Form_ModificarReparacion_Load(object sender, EventArgs e)
@@ -67,9 +70,10 @@ namespace Formularios
                 this.reparacion.Estado = (Enumerado.EEstado)this.cmb_Estado.SelectedIndex;
                 this.reparacion.Precio = double.Parse(this.txt_Precio.Text);
 
-                Sistema.EliminarReparacion(this.txt_CodigoSerie.Text);
-                Sistema.listaReparaciones.Add(this.reparacion);
+                //Sistema.EliminarReparacion(this.txt_CodigoSerie.Text);
+                //Sistema.listaReparaciones.Add(this.reparacion);
 
+                dbReparacionesService.Editar(reparacion);
                 this.Close();
             }
         }

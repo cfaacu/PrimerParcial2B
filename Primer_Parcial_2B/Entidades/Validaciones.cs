@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Entidades.Enumerado;
 
@@ -16,22 +17,22 @@ namespace Entidades
 
             if(Validaciones.StringCargado(nombre))
             {
-                nombre = nombre.ToLower();
-                for (int i = 0; i < nombre.Length; i++)
+                // Expresión regular que permite solo letras y letras con acento
+                Regex regex = new Regex(@"^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$");
+
+                if( regex.IsMatch(nombre))
                 {
-                    if (!(nombre[i] >= 'a' && nombre[i] <= 'z' || nombre[i] == ' '))
-                    {
-                        retorno = false;
-                    }
+                    return true;
                 }
-                retorno = true;
+                else
+                {
+                    throw new DatosInvalidosException("ERROR Ingrese un string solo de letras");
+                }
             }
             else
             {
-                retorno = false;
+                throw new DatosInvalidosException("ERROR complete los campos vacios");
             }
-
-            return retorno;
         }
 
         public static bool StringCargado(string cadena)
@@ -46,7 +47,7 @@ namespace Entidades
                     }
                 }
             }
-            return false;
+            throw new DatosInvalidosException("Ingrese los datos");
         }
         public static bool StringSoloNumeros(string cadena)
         {
@@ -57,13 +58,13 @@ namespace Entidades
                 {
                     if (!Char.IsDigit(c))
                     {
-                        retorno = false;
+                        throw new DatosInvalidosException("Ingrese un string solo numeros");
                     }
                 }
                 retorno = true;
             }
             else
-            { retorno = false; }
+            { throw new DatosInvalidosException("Ingrese un string solo letras"); }
 
             return retorno;
         }
@@ -82,7 +83,7 @@ namespace Entidades
                 {
                     if (!Char.IsDigit(c))
                     {
-                        retorno = false;
+                        throw new DatosInvalidosException("DNI invalido");
                     }
                 }
                 retorno = true;
@@ -108,30 +109,20 @@ namespace Entidades
                     }
                 }
             }
-            return false;
+            throw new DatosInvalidosException("Datos incorrectos");
         }
         public static bool ValidarCampos(string codigo, string nombre, string categoria, string precioVenta, string precioCompra, string cantidad)
         {
-            if (Validaciones.StringCargado(codigo))
+            if (Validaciones.StringCargado(codigo) &&
+                Validaciones.StringCargado(nombre) &&
+                Validaciones.StringCargado(categoria) &&
+                Validaciones.NumerosPositivos(precioVenta) &&
+                Validaciones.NumerosPositivos(precioCompra) &&
+                Validaciones.NumerosPositivos(cantidad))
             {
-                if (Validaciones.StringCargado(nombre))
-                {
-                    if (Validaciones.StringCargado(categoria))
-                    {
-                        if (Validaciones.NumerosPositivos(precioVenta))
-                        {
-                            if (Validaciones.NumerosPositivos(precioCompra))
-                            {
-                                if (Validaciones.NumerosPositivos(cantidad))
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
+                return true;
             }
-            return false;
+            throw new DatosInvalidosException("Datos incorrectos");
         }
 
         public static bool ValidarCampos(string numeroSerie, string TipoReparacion, string falla)
@@ -146,7 +137,7 @@ namespace Entidades
                     }
                 }
             }
-            return false;
+            throw new DatosInvalidosException("Datos incorrectos");
         }
 
         public static bool ValidarCamposReparacion(string presupuesto, string estado, string precio)
@@ -161,7 +152,7 @@ namespace Entidades
                     }
                 }
             }
-            return false;
+            throw new DatosInvalidosException("Datos incorrectos");
         }
 
         public static bool ValidarCamposClientes(string nombre, string apellido, string dni, string telefono, string direccion)
@@ -182,7 +173,7 @@ namespace Entidades
                     }
                 }
             }
-            return false;
+            throw new DatosInvalidosException("Datos incorrectos");
         }
 
         public static bool NumerosPositivos(string numero)
@@ -194,7 +185,7 @@ namespace Entidades
                     return true;
                 }
             }
-            return false;
+            throw new DatosInvalidosException("Numero Negativo");
         }
     }
 }

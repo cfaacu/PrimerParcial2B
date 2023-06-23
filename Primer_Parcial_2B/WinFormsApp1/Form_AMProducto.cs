@@ -19,9 +19,11 @@ namespace Formularios
         private string codigo;
         Producto producto;
         Enumerado.ECategoria enumerado;
+        ProductoDB dbProductoService;
         public Form_AMProducto()
         {
             InitializeComponent();
+            dbProductoService = new ProductoDB();
         }
         public Form_AMProducto(string codigo, string modo) : this()
         {
@@ -42,13 +44,22 @@ namespace Formularios
 
             if (this.modo == "Modificar")
             {
-                producto = Sistema.BuscarProducto(this.codigo);
+                try
+                {
+                    producto = Sistema.BuscarProducto(this.codigo);
 
-                this.txt_Cantidad.Text = producto.Cantidad.ToString();
-                this.txt_Codigo.Text = producto.Codigo;
-                this.txt_Nombre.Text = producto.Nombre;
-                this.txt_PrecioCompra.Text = producto.PrecioCompra.ToString();
-                this.txt_PrecioVenta.Text = producto.PrecioVenta.ToString();
+                    this.txt_Cantidad.Text = producto.Cantidad.ToString();
+                    this.txt_Codigo.Text = producto.Codigo;
+                    this.txt_Nombre.Text = producto.Nombre;
+                    this.txt_PrecioCompra.Text = producto.PrecioCompra.ToString();
+                    this.txt_PrecioVenta.Text = producto.PrecioVenta.ToString();
+                    this.txt_Codigo.Enabled = false;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Error al buscar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
             if (this.modo == "Alta")
             {
@@ -64,31 +75,34 @@ namespace Formularios
 
         private void btn_Modificar_Click(object sender, EventArgs e)
         {
-            if(modo == "Modificar")
+            try
             {
-                
-            }
-            enumerado = (Enumerado.ECategoria)this.cmb_Categoria.SelectedIndex;
-            if (Validaciones.ValidarCampos(this.txt_Codigo.Text, this.txt_Nombre.Text, enumerado.ToString(), this.txt_PrecioVenta.Text, this.txt_PrecioCompra.Text, this.txt_Cantidad.Text))
-            {                
-                Producto productoAux = new Producto(this.txt_Codigo.Text, this.txt_Nombre.Text, enumerado, int.Parse(this.txt_PrecioVenta.Text), int.Parse(this.txt_PrecioCompra.Text), int.Parse(this.txt_Cantidad.Text));
-                if(productoAux != null)
+                enumerado = (Enumerado.ECategoria)this.cmb_Categoria.SelectedIndex;
+                Validaciones.ValidarCampos(this.txt_Codigo.Text, this.txt_Nombre.Text, enumerado.ToString(), this.txt_PrecioVenta.Text, this.txt_PrecioCompra.Text, this.txt_Cantidad.Text);
+                Producto productoAux = new Producto(this.txt_Codigo.Text, this.txt_Nombre.Text, enumerado, double.Parse(this.txt_PrecioVenta.Text), double.Parse(this.txt_PrecioCompra.Text), int.Parse(this.txt_Cantidad.Text));
+                if (productoAux != null)
                 {
-                    Sistema.EliminarProducto(this.txt_Codigo.Text);
-                    if (Sistema.Agregar(productoAux))
+                    if(modo == "Modificar")
                     {
-                        this.Close();
+                        producto.Modificar(productoAux);
                     }
-                    else
+                    if(modo == "Alta")
                     {
-                        MessageBox.Show("Error al ingresar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        productoAux.Agregar();
                     }
+                    this.Close();
                 }
             }
-            else
+            catch(DatosInvalidosException ex)
             {
-                MessageBox.Show("Error datos invalidos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Error al ingresar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
         }
     }
 }

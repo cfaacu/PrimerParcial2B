@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public class Producto
+    public class Producto : IABM<Producto>
     {
         private string codigo;
         private string nombre;
@@ -14,6 +14,7 @@ namespace Entidades
         private Enumerado.ECategoria categoria;
         private double precioVenta;
         private double precioCompra;
+        ProductoDB dbProductoService;
 
         public string Codigo { get => codigo; }
         public string Nombre { get => nombre; set => nombre = value; }
@@ -22,7 +23,12 @@ namespace Entidades
         public double PrecioCompra { get => precioCompra; set => precioCompra = value; }
         public int Cantidad { get => cantidad; set => cantidad = value; }
 
-        public Producto(string codigo, string nombre, Enumerado.ECategoria categoria, double precioVenta, double precioCompra, int cantidad)
+
+        public Producto()
+        {
+            dbProductoService = new ProductoDB();
+        }
+        public Producto(string codigo, string nombre, Enumerado.ECategoria categoria, double precioVenta, double precioCompra, int cantidad) : this()
         {
             this.codigo = codigo;
             this.nombre = nombre;
@@ -43,6 +49,45 @@ namespace Entidades
             sb.AppendLine(cantidad.ToString());
 
             return sb.ToString();
+        }
+
+        public bool Agregar()
+        {
+            try
+            {
+                dbProductoService.Agregar(this);
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool Modificar(Producto obj)
+        {
+            try
+            {
+                dbProductoService.Editar(obj);
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool Borrar()
+        {
+            try
+            {
+                dbProductoService.Borrar(this.codigo);
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

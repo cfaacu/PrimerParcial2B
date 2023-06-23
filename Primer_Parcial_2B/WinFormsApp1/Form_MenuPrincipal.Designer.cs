@@ -47,7 +47,7 @@
             panelContenedor = new Panel();
             panelBarraTitulo = new Panel();
             btn_Salir = new PictureBox();
-            pictureBox2 = new PictureBox();
+            logoImagen = new PictureBox();
             panelMenuLateral.SuspendLayout();
             panelSubMenuReparaciones.SuspendLayout();
             panelLogo.SuspendLayout();
@@ -55,7 +55,7 @@
             panelContenedor.SuspendLayout();
             panelBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)btn_Salir).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)logoImagen).BeginInit();
             SuspendLayout();
             // 
             // imageList1
@@ -265,7 +265,7 @@
             // 
             panelContenedor.BackColor = Color.SteelBlue;
             panelContenedor.Controls.Add(panelBarraTitulo);
-            panelContenedor.Controls.Add(pictureBox2);
+            panelContenedor.Controls.Add(logoImagen);
             panelContenedor.Dock = DockStyle.Fill;
             panelContenedor.Location = new Point(250, 0);
             panelContenedor.Name = "panelContenedor";
@@ -274,7 +274,7 @@
             // 
             // panelBarraTitulo
             // 
-            panelBarraTitulo.BackColor = Color.DodgerBlue;
+            panelBarraTitulo.BackColor = SystemColors.MenuHighlight;
             panelBarraTitulo.Controls.Add(btn_Salir);
             panelBarraTitulo.Dock = DockStyle.Top;
             panelBarraTitulo.Location = new Point(0, 0);
@@ -294,16 +294,16 @@
             btn_Salir.TabStop = false;
             btn_Salir.Click += btn_Salir_Click;
             // 
-            // pictureBox2
+            // logoImagen
             // 
-            pictureBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(213, 216);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(530, 403);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 0;
-            pictureBox2.TabStop = false;
+            logoImagen.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            logoImagen.Image = (Image)resources.GetObject("logoImagen.Image");
+            logoImagen.Location = new Point(213, 216);
+            logoImagen.Name = "logoImagen";
+            logoImagen.Size = new Size(530, 403);
+            logoImagen.SizeMode = PictureBoxSizeMode.Zoom;
+            logoImagen.TabIndex = 0;
+            logoImagen.TabStop = false;
             // 
             // Form_MenuPrincipal
             // 
@@ -327,7 +327,7 @@
             panelContenedor.ResumeLayout(false);
             panelBarraTitulo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)btn_Salir).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)logoImagen).EndInit();
             ResumeLayout(false);
         }
 
@@ -345,7 +345,7 @@
         private Button btn_AgregarReparacion;
         private Panel panelContenedor;
         private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
+        private PictureBox logoImagen;
         private Panel panelBarraTitulo;
         private PictureBox btn_Salir;
         private Button btn_MostrarVentas;

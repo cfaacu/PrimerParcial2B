@@ -88,7 +88,7 @@
             cmb_Estado.ForeColor = Color.White;
             cmb_Estado.FormattingEnabled = true;
             cmb_Estado.Items.AddRange(new object[] { "ESTADO" });
-            cmb_Estado.Location = new Point(89, 487);
+            cmb_Estado.Location = new Point(296, 414);
             cmb_Estado.Margin = new Padding(3, 4, 3, 4);
             cmb_Estado.Name = "cmb_Estado";
             cmb_Estado.Size = new Size(138, 36);
@@ -100,7 +100,7 @@
             btn_Aceptar.BackColor = Color.White;
             btn_Aceptar.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btn_Aceptar.ForeColor = Color.SteelBlue;
-            btn_Aceptar.Location = new Point(403, 384);
+            btn_Aceptar.Location = new Point(440, 384);
             btn_Aceptar.Margin = new Padding(3, 4, 3, 4);
             btn_Aceptar.Name = "btn_Aceptar";
             btn_Aceptar.Size = new Size(138, 95);

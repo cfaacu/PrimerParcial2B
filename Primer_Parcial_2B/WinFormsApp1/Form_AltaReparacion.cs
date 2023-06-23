@@ -8,15 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.DB_SQL;
 
 namespace Formularios
 {
     public partial class Form_AltaReparacion : Form
     {
         Cliente cliente;
+        ReparacionesDB dbReparacionService;
         public Form_AltaReparacion()
         {
             InitializeComponent();
+            dbReparacionService = new ReparacionesDB();
         }
 
         private void btn_Buscar_Click(object sender, EventArgs e)
@@ -47,6 +50,7 @@ namespace Formularios
             cmb_Tipo.SelectedIndex = 0;
             string[] valores = Enum.GetNames(typeof(Enumerado.ETiposDeReparaciones));
             cmb_Tipo.Items.AddRange(valores);
+
         }
 
         private void btn_Crear_Click(object sender, EventArgs e)
@@ -54,9 +58,20 @@ namespace Formularios
             if (Validaciones.ValidarCampos(this.txt_NumeroSerie.Text, this.cmb_Tipo.Text, this.txt_Falla.Text) && this.cliente != null)
             {
                 Enumerado.ETiposDeReparaciones enumerado = (Enumerado.ETiposDeReparaciones)this.cmb_Tipo.SelectedIndex;
-                Reparacion reparacion = new Reparacion(this.txt_NumeroSerie.Text, enumerado, this.cliente, this.txt_Falla.Text);
-                Sistema.listaReparaciones.Add(reparacion);
-                this.Close();
+                Reparacion reparacion = new Reparacion(Guid.NewGuid(), this.txt_NumeroSerie.Text, enumerado, this.cliente, this.txt_Falla.Text);
+
+                DialogResult resultado = MessageBox.Show("¿Desea confirmar la reparacion?", "Confirmación de reparacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (resultado == DialogResult.Yes)
+                {
+                    dbReparacionService.Agregar(reparacion);
+                    this.Close();
+                }
+                else
+                {
+                    this.Close();
+                }
+
             }
         }
 
