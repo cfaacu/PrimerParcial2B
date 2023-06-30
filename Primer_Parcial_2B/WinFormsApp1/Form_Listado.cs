@@ -21,6 +21,7 @@ namespace Formularios
         static VentaDB dbVentaService;
         static ReparacionesDB dbReparacionService;
         static EmpleadoDB dbEmpleadoService;
+        private Venta venta;
         public Form_Listado(string modo)
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace Formularios
             dbVentaService = new VentaDB();
             dbEmpleadoService = new EmpleadoDB();
             dbReparacionService = new ReparacionesDB();
+            venta = new Venta();
         }
 
         private void Form_Listado_Load(object sender, EventArgs e)
@@ -65,19 +67,9 @@ namespace Formularios
             }
             if (modo == "ventas")
             {
+                dtg_Listado.Columns.Add("IdVenta", "ID VENTA");
                 dtg_Listado.Columns.Add("Cliente", "CLIENTE");
-                dtg_Listado.Columns.Add("Cantidad", "CANTIDAD PRODUCTOS");
                 dtg_Listado.Columns.Add("Total", "PRECIO TOTAL");
-                this.lbl_Total.Visible = true;
-                try
-                {
-                    this.lbl_Total.Text = $"TOTAL DE VENTAS: {Sistema.CalcularVentasTotales(dbVentaService.TraerTodo())}";
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("ERROR al calcular el total", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
             }
             LlenarDataGrid();
         }
@@ -89,7 +81,7 @@ namespace Formularios
                 try
                 {
                     List<Producto> lista = dbProdService.TraerTodo();
-                    
+
                     foreach (Producto producto in lista)
                     {
                         int n = dtg_Listado.Rows.Add();
@@ -173,9 +165,9 @@ namespace Formularios
                                 {
                                     int n = dtg_Listado.Rows.Add();
 
-                                    dtg_Listado.Rows[n].Cells[0].Value = venta.Cliente.Nombre;
-                                    //dtg_Listado.Rows[n].Cells[1].Value = venta.Carrito.Count;
-                                    dtg_Listado.Rows[n].Cells[2].Value = venta.PrecioTotal;
+                                    dtg_Listado.Rows[n].Cells[0].Value = venta.IdVenta;
+                                    dtg_Listado.Rows[n].Cells[1].Value = venta.Cliente.Nombre;
+                                    dtg_Listado.Rows[n].Cells[2].Value = venta.CalcularPrecioTotal();
                                 }
                             }
                             catch (Exception)
@@ -186,6 +178,25 @@ namespace Formularios
                         }
                     }
                 }
+            }
+        }
+
+        private void dtg_Listado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                string? data = this.dtg_Listado.CurrentRow.Cells[0].Value.ToString();
+                Venta ventaAux;
+                if (data != null)
+                {
+                    ventaAux = dbVentaService.Traer(data);
+                    Form_DetalleVenta form_Detalle = new Form_DetalleVenta(ventaAux);
+                    form_Detalle.ShowDialog();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("ERROR al cargar los datos de la VENTA", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

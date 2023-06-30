@@ -187,5 +187,14 @@ namespace Entidades
             }
             throw new DatosInvalidosException("Numero Negativo");
         }
+
+        public static bool ValidarProducto(ProductoVenta producto)
+        {
+            return (producto.Producto is not null && producto.Cantidad > 0 && ValidarStock(producto.Producto, producto.Cantidad));
+        }
+        private static bool ValidarStock(Producto producto, int cantidad)
+        {
+            return producto.Cantidad >= cantidad;
+        }
     }
 }

@@ -56,3 +56,4 @@ D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\bin\Debug\net6.0-windows\runtimes\win
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\bin\Debug\net6.0-windows\runtimes\win-x86\native\sni.dll
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\bin\Debug\net6.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Repos C#\Primer_Parcial_2B\WinFormsApp1\obj\Debug\net6.0-windows\Formularios.Form_DetalleVenta.resources

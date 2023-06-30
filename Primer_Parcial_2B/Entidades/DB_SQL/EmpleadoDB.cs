@@ -18,13 +18,14 @@ namespace Entidades.DB_SQL
         {
             command = new SqlCommand();
             command.CommandType = CommandType.Text;
-            command.Connection = base.GetConnection;
+
         }
 
         public bool Agregar(Empleado obj)
         {
             try
             {
+                command.Connection = base.GetConnection;
                 this.Conectar();
 
                 command.CommandText = "INSERT INTO empleados (dni, nombre, apellido, usuario, password, esAdmin) " +
@@ -54,6 +55,7 @@ namespace Entidades.DB_SQL
         {
             try
             {
+                command.Connection = base.GetConnection;
                 this.Conectar();
 
                 command.CommandText = "DELETE FROM empleados WHERE dni = @dni";
@@ -76,6 +78,7 @@ namespace Entidades.DB_SQL
         {
             try
             {
+                command.Connection = base.GetConnection;
                 this.Conectar();
                 var query = "UPDATE empleados SET nombre = @nombre, apellido = @apellido, usuario = @usuario, password = @password, esAdmin = @esAdmin  WHERE dni = @dni";
                 command.Parameters.Clear();
@@ -107,6 +110,7 @@ namespace Entidades.DB_SQL
 
             try
             {
+                command.Connection = base.GetConnection;
                 this.Conectar();
 
                 command.CommandText = "SELECT * FROM empleados";
@@ -144,6 +148,7 @@ namespace Entidades.DB_SQL
         {
             try
             {
+                command.Connection = base.GetConnection;
                 Empleado emp = null;
                 this.Conectar();
                 command.Parameters.Clear();
@@ -185,6 +190,8 @@ namespace Entidades.DB_SQL
         {
             try
             {
+                command.Connection = base.GetConnection;
+
                 Empleado emp = null;
                 this.Conectar();
                 command.Parameters.Clear();
@@ -227,6 +234,8 @@ namespace Entidades.DB_SQL
         {
             try
             {
+                command.Connection = base.GetConnection;
+
                 Empleado emp = null;
                 this.Conectar();
                 command.Parameters.Clear();
@@ -268,6 +277,8 @@ namespace Entidades.DB_SQL
         {
             try
             {
+                command.Connection = base.GetConnection;
+
                 Empleado emp = null;
                 this.Conectar();
                 command.Parameters.Clear();

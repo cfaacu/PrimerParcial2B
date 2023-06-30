@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entidades.DB_SQL;
 
 namespace Entidades
 {
@@ -16,6 +17,7 @@ namespace Entidades
         private string falla;
         private string presupuesto;
         private double precio;
+        private ReparacionesDB dbReparacionesService;
 
         public Guid Id { get => id; set => id = value;  } 
         public string NumeroSerie { get => numeroSerie; set => numeroSerie = value; }
@@ -28,9 +30,9 @@ namespace Entidades
 
         public Reparacion()
         {
-            
+            dbReparacionesService = new ReparacionesDB();
         }
-        public Reparacion(Guid id, string numeroSerie, Enumerado.ETiposDeReparaciones tipoDeReparacion, Cliente cliente, string falla)
+        public Reparacion(Guid id, string numeroSerie, Enumerado.ETiposDeReparaciones tipoDeReparacion, Cliente cliente, string falla) : this()
         {
             this.id = id;
             this.numeroSerie = numeroSerie;
@@ -45,6 +47,22 @@ namespace Entidades
             this.Presupuesto = presupuesto;
             this.Precio = precio;
             this.estado = estado;
+        }
+
+        public Reparacion BuscarReparacion(string codigoSerie)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(codigoSerie))
+                {
+                    return dbReparacionesService.Traer(codigoSerie);
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception("ERROR al buscar la reparacion");
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entidades.Archivos;
 
 namespace Entidades
 {
@@ -14,6 +15,9 @@ namespace Entidades
         Cliente cliente;
         List<ProductoVenta> detalle = new List<ProductoVenta>();
         DateTime fecha;
+        public delegate void TicketDelegate();
+        public event TicketDelegate TicketGenerado;
+        Serializadora<string> ser;
 
         public Guid IdVenta { get => idVenta; set => idVenta = value; }
         public double PrecioTotal { get => precioTotal; set => precioTotal = value; }
@@ -21,45 +25,49 @@ namespace Entidades
         public List<ProductoVenta> Detalle { get => detalle; set => detalle = value; }
         public DateTime Fecha { get => fecha; set => fecha = value; }
 
-
-        // CONSTRUCTOR CON CLIENTE, SOBRECARGA DE OPERADORES PARA AGREGAR,RESTAR PRODUCTOS AL CARRITO
-        // METODO CONCLUIRVENTA ACTIVAR UN EVENTO PARA VER SI SALIO TODO BIEN, VALIDAR
-        // METODO PARA EXPORTAR TICKET O PDF O TXT
-        // CREAR UNA EXCEPCION PARA PRODUCTONOTFOUND
-        // METODO PARA CALCULAR EL TOTAL DEL CARRITO
-
-
-        public Venta(Cliente cliente, Stack<ProductoVenta> carrito)
+        public Venta(Cliente cliente, Stack<ProductoVenta> carrito) : this()
         {
             this.Cliente = cliente;
             this.PrecioTotal = 0;
-            /*foreach (Producto item in carrito)
-            {
-                this.precioTotal = precioTotal + item.PrecioVenta;
-            }
-            */
         }
-        public Venta(Cliente cliente, Stack<ProductoVenta> carrito, double precioTotal)
+        public Venta(Cliente cliente, Stack<ProductoVenta> carrito, double precioTotal) : this(cliente, carrito)
         {
-            this.Cliente = cliente;
             this.PrecioTotal = precioTotal;
         }
         public Venta()
         {
-
+            ser = new Serializadora<string>(Enumerado.ETipo.XML);
         }
 
-        public void TerminarVenta()
+        public double CalcularPrecioTotal()
         {
-            //VALIDACIONES
-
-            //Recorrer carrito
-            /*this.carrito.ToList().ForEach(producto =>
+            double total = 0;
+            foreach (ProductoVenta item in this.Detalle)
             {
+                total = total + (item.Producto.PrecioVenta * item.Cantidad);
+            }
+            return total;
+        }
 
-            })
-            */
-            //
+        public void GenerarTicket()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("*************** TICKET ***************");
+            sb.AppendLine($"Codigo de compra: {this.IdVenta}");
+            sb.AppendLine($"Fecha: {this.Fecha}");
+            sb.AppendLine($"Cliente: {this.Cliente.Nombre} {this.cliente.Apellido}");
+            sb.AppendLine("Artículos:");
+            foreach (var articulo in Detalle)
+            {
+                sb.AppendLine($"- {articulo.Producto.Nombre}   Cantidad: {articulo.Cantidad}");
+            }
+            sb.AppendLine($"Total: ${this.PrecioTotal}");
+            sb.AppendLine("***************************************");
+
+            ser.Escribir(sb.ToString(), Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Ticket.xml");
+
+            TicketGenerado.Invoke();
         }
     }
+    
 }

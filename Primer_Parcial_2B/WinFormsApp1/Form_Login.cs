@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
@@ -16,6 +17,7 @@ namespace Formularios
     {
         Empleado empleado;
         EmpleadoDB dbEmpleadoService;
+
         public Form_Login()
         {
             InitializeComponent();
@@ -25,7 +27,6 @@ namespace Formularios
         private void btn_Ingresar_Click(object sender, EventArgs e)
         {
             string modo;
-               
             try
             {
                 if(Validaciones.StringCargado(this.txt_Usuario.Text) && Validaciones.StringCargado(this.txt_Password.Text))

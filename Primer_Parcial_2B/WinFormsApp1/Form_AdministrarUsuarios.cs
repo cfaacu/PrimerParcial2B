@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.DB_SQL;
 
 namespace Formularios
 {
@@ -16,9 +17,11 @@ namespace Formularios
     {
         Empleado empleado;
         bool flag;
+        EmpleadoDB DBempleadoService;
         public Form_AdministrarUsuarios()
         {
             InitializeComponent();
+            DBempleadoService = new EmpleadoDB();
         }
 
         private void Form_AdministrarUsuarios_Load(object sender, EventArgs e)
@@ -29,66 +32,92 @@ namespace Formularios
 
         private void LlenarDataGridView()
         {
-            dtg_ListadoUsuarios.Rows.Clear();
-            foreach (Empleado empleado in Sistema.listaEmpleados)
+            try
             {
-                int n = dtg_ListadoUsuarios.Rows.Add();
+                dtg_ListadoUsuarios.Rows.Clear();
+                foreach (Empleado empleado in DBempleadoService.TraerTodo())
+                {
+                    int n = dtg_ListadoUsuarios.Rows.Add();
 
-                dtg_ListadoUsuarios.Rows[n].Cells[0].Value = empleado.Dni;
-                dtg_ListadoUsuarios.Rows[n].Cells[1].Value = empleado.Nombre;
-                dtg_ListadoUsuarios.Rows[n].Cells[2].Value = empleado.Apellido;
-                dtg_ListadoUsuarios.Rows[n].Cells[3].Value = empleado.Usuario;
-                dtg_ListadoUsuarios.Rows[n].Cells[4].Value = empleado.Admin;
+                    dtg_ListadoUsuarios.Rows[n].Cells[0].Value = empleado.Dni;
+                    dtg_ListadoUsuarios.Rows[n].Cells[1].Value = empleado.Nombre;
+                    dtg_ListadoUsuarios.Rows[n].Cells[2].Value = empleado.Apellido;
+                    dtg_ListadoUsuarios.Rows[n].Cells[3].Value = empleado.Usuario;
+                    dtg_ListadoUsuarios.Rows[n].Cells[4].Value = empleado.Admin;
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al traer los empleados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void btn_Continuar_Click(object sender, EventArgs e)
         {
-            if (flag == true)
+            try
             {
-                Sistema.EliminarEmpleado(this.txt_DNI.Text);
-                flag = false;
-            }
-            if (Validaciones.ValidarCampos(this.txt_Nombre.Text, this.txt_Apellido.Text, this.txt_DNI.Text, this.txt_Usuario.Text, this.txt_Password.Text))
-            {
-                empleado = new Empleado(this.txt_Nombre.Text, this.txt_Apellido.Text, int.Parse(this.txt_DNI.Text), this.txt_Usuario.Text, this.txt_Password.Text, chk_Admin.Checked);
-                if (empleado != null)
+                if (Validaciones.ValidarCampos(this.txt_Nombre.Text, this.txt_Apellido.Text, this.txt_DNI.Text, this.txt_Usuario.Text, this.txt_Password.Text))
                 {
-                    Sistema.listaEmpleados.Add(empleado);
-                    LlenarDataGridView();
+                    empleado = new Empleado(this.txt_Nombre.Text, this.txt_Apellido.Text, int.Parse(this.txt_DNI.Text), this.txt_Usuario.Text, this.txt_Password.Text, chk_Admin.Checked);
+                    if (flag == false && empleado != null)
+                    {
+                        DBempleadoService.Agregar(empleado);
+                    }
+
+                    if (flag == true && empleado != null)
+                    {
+                        DBempleadoService.Editar(empleado);
+                        flag = false;
+                    }
                 }
             }
-            else
+            catch(DatosInvalidosException)
             {
                 MessageBox.Show("Error al ingresar los datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Error con la base de datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            LlenarDataGridView();
         }
 
         private void dtg_ListadoUsuarios_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
-            if (dtg_ListadoUsuarios.Columns[e.ColumnIndex].Name == "Modificar")
+            try
             {
-                string? dni = this.dtg_ListadoUsuarios.CurrentRow.Cells["Dni"].Value.ToString();
-                empleado = Sistema.BuscarEmpleado(dni);
-                if (empleado != null)
+                if (dtg_ListadoUsuarios.Columns[e.ColumnIndex].Name == "Modificar")
                 {
-                    this.txt_DNI.Text = empleado.Dni.ToString();
-                    this.txt_Nombre.Text = empleado.Nombre;
-                    this.txt_Apellido.Text = empleado.Apellido;
-                    this.txt_Usuario.Text = empleado.Usuario;
-                    this.txt_Password.Text = empleado.Password;
-                    if (empleado.Admin == true)
+                    string? dni = this.dtg_ListadoUsuarios.CurrentRow.Cells["Dni"].Value.ToString();
+                    if (dni != null)
                     {
-                        this.chk_Admin.Checked = true;
+                        empleado = DBempleadoService.Traer(dni);
                     }
-                    else
+                    if (empleado != null)
                     {
-                        this.chk_Admin.Checked = false;
+                        this.txt_DNI.Text = empleado.Dni.ToString();
+                        this.txt_Nombre.Text = empleado.Nombre;
+                        this.txt_Apellido.Text = empleado.Apellido;
+                        this.txt_Usuario.Text = empleado.Usuario;
+                        this.txt_Password.Text = empleado.Password;
+                        if (empleado.Admin == true)
+                        {
+                            this.chk_Admin.Checked = true;
+                        }
+                        else
+                        {
+                            this.chk_Admin.Checked = false;
+                        }
+                        flag = true;
                     }
-                    flag = true;
                 }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al encontrar el usuario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }

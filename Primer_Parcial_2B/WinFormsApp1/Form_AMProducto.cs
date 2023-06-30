@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.DB_SQL;
 using static Entidades.Enumerado;
 
 namespace Formularios
@@ -24,6 +25,7 @@ namespace Formularios
         {
             InitializeComponent();
             dbProductoService = new ProductoDB();
+            producto = new Producto();
         }
         public Form_AMProducto(string codigo, string modo) : this()
         {
@@ -46,7 +48,7 @@ namespace Formularios
             {
                 try
                 {
-                    producto = Sistema.BuscarProducto(this.codigo);
+                    producto = producto.BuscarProducto(codigo);
 
                     this.txt_Cantidad.Text = producto.Cantidad.ToString();
                     this.txt_Codigo.Text = producto.Codigo;
@@ -82,15 +84,22 @@ namespace Formularios
                 Producto productoAux = new Producto(this.txt_Codigo.Text, this.txt_Nombre.Text, enumerado, double.Parse(this.txt_PrecioVenta.Text), double.Parse(this.txt_PrecioCompra.Text), int.Parse(this.txt_Cantidad.Text));
                 if (productoAux != null)
                 {
-                    if(modo == "Modificar")
+                    DialogResult resultado = MessageBox.Show("¿Confirma la modificacion?", "Confirmación de modificacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (resultado == DialogResult.Yes)
                     {
                         producto.Modificar(productoAux);
+                        this.Close();
+                    }
+                    else
+                    {
+                        this.Close();
                     }
                     if(modo == "Alta")
                     {
                         productoAux.Agregar();
                     }
-                    this.Close();
+                    
                 }
             }
             catch(DatosInvalidosException ex)

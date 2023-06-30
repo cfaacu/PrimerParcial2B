@@ -89,5 +89,21 @@ namespace Entidades
                 throw;
             }
         }
+
+        public Producto BuscarProducto(string codigo)
+        {
+            try
+            {
+                if (Validaciones.StringCargado(codigo))
+                {
+                    return dbProductoService.Traer(codigo);
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw new Exception("ERROR al buscar el producto");
+            }
+        }
     }
 }

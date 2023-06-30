@@ -18,7 +18,8 @@ namespace Formularios
         private double precioTotal = 0;
         Cliente cliente;
         Venta venta;
-        VentaDB ventasService; 
+        VentaDB ventasService;
+        Producto prod;
 
         ClienteDB clienteService;
         public Form_Ventas()
@@ -28,10 +29,16 @@ namespace Formularios
             venta = new Venta();
             clienteService = new ClienteDB();
             ventasService = new VentaDB();
+            prod = new Producto();
+            cliente = new Cliente();
         }
 
         private void Form_Ventas_Load(object sender, EventArgs e)
         {
+            venta.TicketGenerado += (() =>
+            {
+                MessageBox.Show("Ticket Generado Con Exito!");
+            });
         }
 
         private void btn_Agregar_Click(object sender, EventArgs e)
@@ -41,13 +48,13 @@ namespace Formularios
                 var productito = new ProductoVenta
                 {
                     Cantidad = int.Parse(this.txt_Cantidad.Text),
-                    Producto = Sistema.BuscarProducto(this.txt_Codigo.Text)
+                    Producto = prod.BuscarProducto(this.txt_Codigo.Text)
                 };
 
                 if (productito.Producto != null)
                 {
                     int n = dtg_Productos.Rows.Add();
-                    if (Sistema.ValidarProducto(productito))
+                    if (Validaciones.ValidarProducto(productito))
                     {
                         dtg_Productos.Rows[n].Cells[0].Value = productito.Producto.Codigo;
                         dtg_Productos.Rows[n].Cells[1].Value = productito.Producto.Nombre;
@@ -108,7 +115,9 @@ namespace Formularios
                         this.venta.Detalle = this.carrito.ToList();
                         this.venta.Cliente = clienteService.Traer(this.txt_DNI.Text);
                         this.venta.Fecha = DateTime.Now;
+                        this.venta.PrecioTotal = this.precioTotal;
                         await ventasService.Agregar(venta);
+                        venta.GenerarTicket();
                         this.Close();
                     }
                     else
@@ -134,7 +143,7 @@ namespace Formularios
         {
             if (!string.IsNullOrEmpty(this.txt_DNI.Text))
             {
-                cliente = Sistema.BuscarCliente(this.txt_DNI.Text);
+                cliente = cliente.BuscarCliente(this.txt_DNI.Text);
                 if (cliente != null)
                 {
                     this.txt_Nombre.Text = cliente.Nombre;

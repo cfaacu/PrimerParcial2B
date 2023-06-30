@@ -20,13 +20,14 @@ namespace Formularios
         {
             InitializeComponent();
             dbReparacionService = new ReparacionesDB();
+            cliente = new Cliente(); 
         }
 
         private void btn_Buscar_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.txt_DNI.Text))
             {
-                cliente = Sistema.BuscarCliente(this.txt_DNI.Text);
+                cliente = cliente.BuscarCliente(this.txt_DNI.Text);
                 if (cliente != null)
                 {
                     this.txt_Nombre.Text = cliente.Nombre;

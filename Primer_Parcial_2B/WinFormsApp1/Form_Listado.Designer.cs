@@ -32,7 +32,6 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             dtg_Listado = new DataGridView();
-            lbl_Total = new Label();
             ((System.ComponentModel.ISupportInitialize)dtg_Listado).BeginInit();
             SuspendLayout();
             // 
@@ -67,8 +66,7 @@
             dtg_Listado.DefaultCellStyle = dataGridViewCellStyle2;
             dtg_Listado.EnableHeadersVisualStyles = false;
             dtg_Listado.GridColor = Color.White;
-            dtg_Listado.Location = new Point(29, 29);
-            dtg_Listado.Margin = new Padding(3, 4, 3, 4);
+            dtg_Listado.Location = new Point(25, 22);
             dtg_Listado.Name = "dtg_Listado";
             dtg_Listado.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -84,41 +82,26 @@
             dtg_Listado.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dtg_Listado.RowTemplate.Height = 25;
             dtg_Listado.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtg_Listado.Size = new Size(701, 317);
+            dtg_Listado.Size = new Size(613, 238);
             dtg_Listado.TabIndex = 0;
-            // 
-            // lbl_Total
-            // 
-            lbl_Total.AutoSize = true;
-            lbl_Total.Font = new Font("Yu Gothic UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
-            lbl_Total.ForeColor = Color.White;
-            lbl_Total.Location = new Point(62, 383);
-            lbl_Total.Name = "lbl_Total";
-            lbl_Total.Size = new Size(107, 54);
-            lbl_Total.TabIndex = 1;
-            lbl_Total.Text = "Total";
-            lbl_Total.Visible = false;
+            dtg_Listado.CellDoubleClick += dtg_Listado_CellDoubleClick;
             // 
             // Form_Listado
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.SteelBlue;
-            ClientSize = new Size(993, 664);
-            Controls.Add(lbl_Total);
+            ClientSize = new Size(869, 498);
             Controls.Add(dtg_Listado);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form_Listado";
             Text = "Form_Listado";
             Load += Form_Listado_Load;
             ((System.ComponentModel.ISupportInitialize)dtg_Listado).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dtg_Listado;
-        private Label lbl_Total;
     }
 }

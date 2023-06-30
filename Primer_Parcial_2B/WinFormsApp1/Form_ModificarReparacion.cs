@@ -20,6 +20,7 @@ namespace Formularios
         {
             InitializeComponent();
             dbReparacionesService = new ReparacionesDB();
+            reparacion = new Reparacion();
         }
 
         private void Form_ModificarReparacion_Load(object sender, EventArgs e)
@@ -43,7 +44,7 @@ namespace Formularios
         {
             if (!string.IsNullOrEmpty(this.txt_CodigoSerie.Text))
             {
-                reparacion = Sistema.BuscarReparacion(this.txt_CodigoSerie.Text);
+                reparacion = reparacion.BuscarReparacion(this.txt_CodigoSerie.Text);
                 if (reparacion != null)
                 {
                     this.txt_CodigoSerie.Enabled = false;
@@ -80,18 +81,26 @@ namespace Formularios
 
         private void LlenarDataGrid()
         {
-            foreach (Reparacion reparacion in Sistema.listaReparaciones)
+            try
             {
-                int n = dtg_Reparaciones.Rows.Add();
+                foreach (Reparacion reparacion in dbReparacionesService.TraerTodo())
+                {
+                    int n = dtg_Reparaciones.Rows.Add();
 
-                dtg_Reparaciones.Rows[n].Cells[0].Value = reparacion.NumeroSerie;
-                dtg_Reparaciones.Rows[n].Cells[1].Value = reparacion.Cliente.Nombre;
-                dtg_Reparaciones.Rows[n].Cells[2].Value = reparacion.TipoDeReparacion;
-                dtg_Reparaciones.Rows[n].Cells[3].Value = reparacion.Falla;
-                dtg_Reparaciones.Rows[n].Cells[4].Value = reparacion.Estado;
-                dtg_Reparaciones.Rows[n].Cells[5].Value = reparacion.Presupuesto;
-                dtg_Reparaciones.Rows[n].Cells[6].Value = reparacion.Precio;
+                    dtg_Reparaciones.Rows[n].Cells[0].Value = reparacion.NumeroSerie;
+                    dtg_Reparaciones.Rows[n].Cells[1].Value = reparacion.Cliente.Nombre;
+                    dtg_Reparaciones.Rows[n].Cells[2].Value = reparacion.TipoDeReparacion;
+                    dtg_Reparaciones.Rows[n].Cells[3].Value = reparacion.Falla;
+                    dtg_Reparaciones.Rows[n].Cells[4].Value = reparacion.Estado;
+                    dtg_Reparaciones.Rows[n].Cells[5].Value = reparacion.Presupuesto;
+                    dtg_Reparaciones.Rows[n].Cells[6].Value = reparacion.Precio;
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al traer las reparaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void dtg_Reparaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)

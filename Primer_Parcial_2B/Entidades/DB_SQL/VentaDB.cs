@@ -76,7 +76,30 @@ namespace Entidades.DB_SQL
 
         public Venta Traer(string id)
         {
-            return new Venta();
+            try
+            {
+                List<Venta> aux = TraerTodo();
+                if (id != null)
+                {
+                    Guid idVentaGuid = Guid.Parse(id);
+                    foreach (Venta item in aux)
+                    {
+                        if (item.IdVenta == idVentaGuid)
+                        {
+                            return item;
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+
         }
 
         public List<Venta> TraerTodo()

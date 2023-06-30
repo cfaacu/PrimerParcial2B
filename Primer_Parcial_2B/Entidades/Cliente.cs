@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entidades.DB_SQL;
+using Google.Apis.Services;
 
 namespace Entidades
 {
@@ -92,6 +93,24 @@ namespace Entidades
 
                 throw;
             }
+        }
+
+        public Cliente BuscarCliente(string dni)
+        {
+            try
+            {
+                if (int.TryParse(dni, out int dniInt))
+                {
+                    return dbClienteService.Traer(dni);
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("ERROR al buscar el cliente");
+            }
+
         }
     }
 }
