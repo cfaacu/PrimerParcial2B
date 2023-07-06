@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
@@ -16,42 +17,50 @@ namespace Formularios
     {
         Cliente cliente;
         ReparacionesDB dbReparacionService;
+        ArchivoTexto archivo;
         public Form_AltaReparacion()
         {
             InitializeComponent();
             dbReparacionService = new ReparacionesDB();
             cliente = new Cliente(); 
+            archivo = new ArchivoTexto();
         }
-
-        private void btn_Buscar_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(this.txt_DNI.Text))
-            {
-                cliente = cliente.BuscarCliente(this.txt_DNI.Text);
-                if (cliente != null)
-                {
-                    this.txt_Nombre.Text = cliente.Nombre;
-                    this.txt_Apellido.Text = cliente.Apellido;
-                    this.txt_Direccion.Text = cliente.Direccion;
-                    this.txt_Telefono.Text = cliente.Telefono.ToString();
-                }
-                else
-                {
-                    MessageBox.Show("Error DNI invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Error ingrese un DNI", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void Form_AltaReparacion_Load(object sender, EventArgs e)
         {
             cmb_Tipo.SelectedIndex = 0;
             string[] valores = Enum.GetNames(typeof(Enumerado.ETiposDeReparaciones));
             cmb_Tipo.Items.AddRange(valores);
+        }
 
+        private void btn_Buscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(this.txt_DNI.Text))
+                {
+                    cliente = cliente.BuscarCliente(this.txt_DNI.Text);
+                    if (cliente != null)
+                    {
+                        this.txt_Nombre.Text = cliente.Nombre;
+                        this.txt_Apellido.Text = cliente.Apellido;
+                        this.txt_Direccion.Text = cliente.Direccion;
+                        this.txt_Telefono.Text = cliente.Telefono.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error DNI invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error ingrese un DNI", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                archivo.LogErrores(ex);
+                MessageBox.Show("Error al buscar al Cliente DB", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }           
         }
 
         private void btn_Crear_Click(object sender, EventArgs e)
@@ -65,7 +74,10 @@ namespace Formularios
 
                 if (resultado == DialogResult.Yes)
                 {
-                    dbReparacionService.Agregar(reparacion);
+                    Task tarea = Task.Run(() => {
+                        dbReparacionService.Agregar(reparacion); 
+                    });
+                    
                     this.Close();
                 }
                 else

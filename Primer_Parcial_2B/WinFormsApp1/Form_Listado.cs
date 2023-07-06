@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 using Google.Protobuf.Collections;
 
@@ -22,6 +23,7 @@ namespace Formularios
         static ReparacionesDB dbReparacionService;
         static EmpleadoDB dbEmpleadoService;
         private Venta venta;
+        private ArchivoTexto archivo;
         public Form_Listado(string modo)
         {
             InitializeComponent();
@@ -32,6 +34,7 @@ namespace Formularios
             dbEmpleadoService = new EmpleadoDB();
             dbReparacionService = new ReparacionesDB();
             venta = new Venta();
+            archivo = new ArchivoTexto();
         }
 
         private void Form_Listado_Load(object sender, EventArgs e)
@@ -94,9 +97,9 @@ namespace Formularios
                         dtg_Listado.Rows[n].Cells[5].Value = producto.PrecioCompra;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    archivo.LogErrores(ex);
                     MessageBox.Show("ERROR al cargar los productos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -119,8 +122,9 @@ namespace Formularios
                             dtg_Listado.Rows[n].Cells[4].Value = cliente.Telefono;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        archivo.LogErrores(ex);
                         MessageBox.Show("ERROR al cargar los clientes", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     }
@@ -146,9 +150,9 @@ namespace Formularios
                                 dtg_Listado.Rows[n].Cells[6].Value = reparacion.Precio;
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-
+                            archivo.LogErrores(ex);
                             MessageBox.Show("ERROR al cargar las reparaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         }
@@ -170,8 +174,9 @@ namespace Formularios
                                     dtg_Listado.Rows[n].Cells[2].Value = venta.CalcularPrecioTotal();
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
+                                archivo.LogErrores(ex);
                                 MessageBox.Show("ERROR al cargar las VENTAS", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
 
@@ -194,8 +199,9 @@ namespace Formularios
                     form_Detalle.ShowDialog();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("ERROR al cargar los datos de la VENTA", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

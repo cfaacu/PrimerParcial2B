@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
@@ -20,7 +21,7 @@ namespace Formularios
         Venta venta;
         VentaDB ventasService;
         Producto prod;
-
+        ArchivoTexto archivo;
         ClienteDB clienteService;
         public Form_Ventas()
         {
@@ -31,6 +32,7 @@ namespace Formularios
             ventasService = new VentaDB();
             prod = new Producto();
             cliente = new Cliente();
+            archivo = new ArchivoTexto();
         }
 
         private void Form_Ventas_Load(object sender, EventArgs e)
@@ -79,9 +81,9 @@ namespace Formularios
                 this.txt_Cantidad.Text = string.Empty;
                 this.txt_Codigo.Text = string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error inesperado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -126,9 +128,9 @@ namespace Formularios
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error al generar la venta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

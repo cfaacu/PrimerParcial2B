@@ -8,22 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
 {
     public partial class Form_AMCliente : Form
     {
+        Action<Cliente> action;
+        public event Action<Cliente> Pasaje;
         private string dni;
         private string modo;
         Cliente cliente;
         ClienteDB dbClienteService;
+        ArchivoTexto archivo;
         public Form_AMCliente(string dni, string modo) : this()
         {
             this.dni = dni;
             this.modo = modo;
             dbClienteService = new ClienteDB();
             cliente = new Cliente();
+            archivo = new ArchivoTexto();
         }
         public Form_AMCliente()
         {
@@ -48,9 +53,9 @@ namespace Formularios
                     this.txt_Nombre.Text = cliente.Nombre;
                     this.txt_Telefono.Text = cliente.Telefono.ToString();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    archivo.LogErrores(ex);
                     MessageBox.Show("Error encontrar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -78,7 +83,7 @@ namespace Formularios
 
                         if (resultado == DialogResult.Yes)
                         {
-                            cliente.Modificar(clienteAux);
+                            Pasaje.Invoke(clienteAux);
                             this.Close();
                         }
                         else
@@ -89,19 +94,20 @@ namespace Formularios
 
                     if(this.modo == "Alta")
                     {
-                        clienteAux.Agregar();
+                        Pasaje.Invoke(clienteAux);
                         this.Close();
                     }
                 }                
             }
             catch(DatosInvalidosException ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("ERROR Datos incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                archivo.LogErrores(ex);
+                MessageBox.Show("ERROR inesperado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

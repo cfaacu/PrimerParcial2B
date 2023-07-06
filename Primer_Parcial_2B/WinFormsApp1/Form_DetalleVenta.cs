@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
@@ -16,11 +17,13 @@ namespace Formularios
     {
         VentaDB dbVentaService;
         Venta venta;
+        ArchivoTexto archivo;
         public Form_DetalleVenta(Venta venta)
         {
             InitializeComponent();
             dbVentaService = new VentaDB();
             this.venta = venta;
+            archivo = new ArchivoTexto();
         }
 
         private void Form_DetalleVenta_Load(object sender, EventArgs e)
@@ -53,8 +56,9 @@ namespace Formularios
                     dtg_Listado.Rows[n].Cells[5].Value = Math.Round((detalle.Producto.PrecioVenta) - (detalle.Producto.PrecioCompra),2);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("ERROR al cargar las VENTAS", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

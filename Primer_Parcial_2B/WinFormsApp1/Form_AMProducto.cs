@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 using static Entidades.Enumerado;
 
@@ -16,16 +17,20 @@ namespace Formularios
 {
     public partial class Form_AMProducto : Form
     {
+        Action<Producto> action;
+        public event Action<Producto> Pasaje;
         private string modo;
         private string codigo;
         Producto producto;
         Enumerado.ECategoria enumerado;
         ProductoDB dbProductoService;
+        ArchivoTexto archivo;
         public Form_AMProducto()
         {
             InitializeComponent();
             dbProductoService = new ProductoDB();
             producto = new Producto();
+            archivo = new ArchivoTexto();
         }
         public Form_AMProducto(string codigo, string modo) : this()
         {
@@ -57,8 +62,9 @@ namespace Formularios
                     this.txt_PrecioVenta.Text = producto.PrecioVenta.ToString();
                     this.txt_Codigo.Enabled = false;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    archivo.LogErrores(ex);
                     MessageBox.Show("Error al buscar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -84,31 +90,37 @@ namespace Formularios
                 Producto productoAux = new Producto(this.txt_Codigo.Text, this.txt_Nombre.Text, enumerado, double.Parse(this.txt_PrecioVenta.Text), double.Parse(this.txt_PrecioCompra.Text), int.Parse(this.txt_Cantidad.Text));
                 if (productoAux != null)
                 {
-                    DialogResult resultado = MessageBox.Show("¿Confirma la modificacion?", "Confirmación de modificacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if(modo == "Modificar")
+                    {
+                        DialogResult resultado = MessageBox.Show("¿Confirma la modificacion?", "Confirmación de modificacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    if (resultado == DialogResult.Yes)
-                    {
-                        producto.Modificar(productoAux);
-                        this.Close();
+                        if (resultado == DialogResult.Yes)
+                        {
+                            Pasaje.Invoke(productoAux);
+                            this.Close();
+                        }
+                        else
+                        {
+                            this.Close();
+                        }
                     }
-                    else
-                    {
-                        this.Close();
-                    }
+                   
                     if(modo == "Alta")
                     {
-                        productoAux.Agregar();
+                        Pasaje.Invoke(productoAux);
+                        this.Close();
                     }
                     
                 }
             }
             catch(DatosInvalidosException ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error al ingresar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
            

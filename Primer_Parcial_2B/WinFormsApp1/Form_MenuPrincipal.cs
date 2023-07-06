@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
@@ -18,6 +19,7 @@ namespace Formularios
     {
         string modo;
         private Form formularioActivo = null;
+
         public Form_MenuPrincipal(string modo)
         {
             InitializeComponent();

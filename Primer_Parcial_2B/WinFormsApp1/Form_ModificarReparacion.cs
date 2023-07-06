@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
@@ -16,11 +17,13 @@ namespace Formularios
     {
         Reparacion reparacion;
         ReparacionesDB dbReparacionesService;
+        ArchivoTexto archivo;
         public Form_ModificarReparacion()
         {
             InitializeComponent();
             dbReparacionesService = new ReparacionesDB();
             reparacion = new Reparacion();
+            archivo = new ArchivoTexto();
         }
 
         private void Form_ModificarReparacion_Load(object sender, EventArgs e)
@@ -65,18 +68,28 @@ namespace Formularios
 
         private void btn_Aceptar_Click(object sender, EventArgs e)
         {
-            if (Validaciones.ValidarCamposReparacion(this.txt_Presupuesto.Text, this.cmb_Estado.Text, this.txt_Precio.Text))
+            try
             {
-                this.reparacion.Presupuesto = this.txt_Presupuesto.Text;
-                this.reparacion.Estado = (Enumerado.EEstado)this.cmb_Estado.SelectedIndex;
-                this.reparacion.Precio = double.Parse(this.txt_Precio.Text);
+                if (Validaciones.ValidarCamposReparacion(this.txt_Presupuesto.Text, this.cmb_Estado.Text, this.txt_Precio.Text))
+                {
+                    this.reparacion.Presupuesto = this.txt_Presupuesto.Text;
+                    this.reparacion.Estado = (Enumerado.EEstado)this.cmb_Estado.SelectedIndex;
+                    this.reparacion.Precio = double.Parse(this.txt_Precio.Text);
 
-                //Sistema.EliminarReparacion(this.txt_CodigoSerie.Text);
-                //Sistema.listaReparaciones.Add(this.reparacion);
+                    //Sistema.EliminarReparacion(this.txt_CodigoSerie.Text);
+                    //Sistema.listaReparaciones.Add(this.reparacion);
 
-                dbReparacionesService.Editar(reparacion);
-                this.Close();
+                    dbReparacionesService.Editar(reparacion);
+                    this.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                archivo.LogErrores(ex);
+                MessageBox.Show("Error en los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+            }
+            
         }
 
         private void LlenarDataGrid()
@@ -96,8 +109,9 @@ namespace Formularios
                     dtg_Reparaciones.Rows[n].Cells[6].Value = reparacion.Precio;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error al traer las reparaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

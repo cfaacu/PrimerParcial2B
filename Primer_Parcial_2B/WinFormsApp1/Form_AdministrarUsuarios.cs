@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entidades;
+using Entidades.Archivos;
 using Entidades.DB_SQL;
 
 namespace Formularios
@@ -18,10 +19,12 @@ namespace Formularios
         Empleado empleado;
         bool flag;
         EmpleadoDB DBempleadoService;
+        ArchivoTexto archivo;
         public Form_AdministrarUsuarios()
         {
             InitializeComponent();
             DBempleadoService = new EmpleadoDB();
+            archivo = new ArchivoTexto();
         }
 
         private void Form_AdministrarUsuarios_Load(object sender, EventArgs e)
@@ -46,8 +49,9 @@ namespace Formularios
                     dtg_ListadoUsuarios.Rows[n].Cells[4].Value = empleado.Admin;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error al traer los empleados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -72,12 +76,14 @@ namespace Formularios
                     }
                 }
             }
-            catch(DatosInvalidosException)
+            catch(DatosInvalidosException ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error al ingresar los datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error con la base de datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             LlenarDataGridView();
@@ -113,8 +119,9 @@ namespace Formularios
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("Error al encontrar el usuario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

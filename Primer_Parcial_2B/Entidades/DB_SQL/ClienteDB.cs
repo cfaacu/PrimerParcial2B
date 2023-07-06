@@ -25,6 +25,7 @@ namespace Entidades.DB_SQL
             {
                 this.Conectar();
 
+                command.Parameters.Clear();
                 command.CommandText = "INSERT INTO clientes (dni, nombre, apellido, telefono, direccion) " +
                                       "VALUES (@dni, @nombre, @apellido, @telefono, @direccion)";
                 command.Parameters.AddWithValue("@dni", obj.Dni);
@@ -51,7 +52,7 @@ namespace Entidades.DB_SQL
             try
             {
                 this.Conectar();
-
+                command.Parameters.Clear();
                 command.CommandText = "DELETE FROM clientes WHERE dni = @dni";
                 command.Parameters.AddWithValue("@dni", id);
                 command.ExecuteNonQuery();

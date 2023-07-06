@@ -17,11 +17,13 @@ namespace Formularios
     {
         Empleado empleado;
         EmpleadoDB dbEmpleadoService;
+        ArchivoTexto archivo;
 
         public Form_Login()
         {
             InitializeComponent();
             dbEmpleadoService = new EmpleadoDB();
+            archivo = new ArchivoTexto();
         }
 
         private void btn_Ingresar_Click(object sender, EventArgs e)
@@ -45,10 +47,12 @@ namespace Formularios
             }
             catch(DatosInvalidosException ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                archivo.LogErrores(ex);
                 MessageBox.Show("El usuario no existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }                 
         }
